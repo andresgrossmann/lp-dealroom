@@ -6,11 +6,15 @@ function useIsMobile(breakpoint = 768) {
   return w < breakpoint;
 }
 
-const NAVY = "#1B3A5C";
-const GOLD = "#C8A951";
-const DARK = "#1a1a1a";
-const LIGHT = "#F8F7F4";
-const BLUE = "#2E75B6";
+// ── RELATED REALTY BRAND PALETTE ──
+const NAVY = "#1c1c1c";
+const GOLD = "#B8986E";
+const DARK = "#1c1c1c";
+const LIGHT = "#FAFAF8";
+const BLUE = "#1c1c1c";
+const ACCENT = "#B8986E";
+const FONT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
 
 const DEAL = {
   price: 21500000,
@@ -34,29 +38,29 @@ const GALLERY_IMAGES = [
   { label: "Lobby Bar & Reception", src: "/images/lobby-bar.jpg" },
   { label: "Guest Room — Water View", src: "/images/guest-room.jpg" },
   { label: "Elevator — Renovated Interior", src: "/images/elevator.jpg" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1-T535fbyh_k0MMGW7g_ahg0qtnpyHHZ6" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=13cohIavOfsivbkoLsPwbGtnS4CI1XkAp" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=16Zk9AiYhO814tx_BK3dbkkl9tgRAzqsR" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=16b0nEwJdnOFq3KMbF-gzwqx1KJYUEUKe" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1AinEGcXrczdICRzMmxok4sRLB_bVNbpg" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1BmeBtvCStupWBoq_0-6OPLm-nm6fWTiH" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1BxUPNnxdpzmgoMZSNh4YStGvRMcbFWJN" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1DrV00NVK_ag1LWnbYwy5DtpVOPdvBLea" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1Fgqo98jlkh-YtGyBSzhW8ARaDAZHDZ1h" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1HwjuJq9LNneOB99qoS1H01le8-ye9NQ1" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1LXpWIbfWkWA99Whd7sN0CEx8ip3tHK2N" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1W3aJal_-QTEK73xI4mvIx4v_vEDy0r6x" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1bZMQEqGJJyTNL4uHhCZQcpsFOBSPpI6T" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1c9xe70op9pJumC2QcVNEimqSwvq2u-cd" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1d6O9Ir8yMLe0W-UP7Uqy4g9anodFYzkv" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1eK0gENZ9cprs-gi1pUzGcmcBz-oQapHp" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1gf1HeH8oZDR5VV6ac1q6oS8LIqjunhfJ" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1jai7ximsIy26TIJb-RlOJlZJqk_PNyGd" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1lgOLhqB6LxIk8ree90vs6EuZ-Be4CEbc" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1lyTaJMWz2-44pe8eEPmWko4H7FrDTTF0" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1m2UwM6Uv1QxiV-7KamJBwbZP2DpuRciu" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1q1e-YruOUEEATAI_DKPXdCSZas9Zy4HU" },
-  { label: "Le Particulier", src: "https://drive.google.com/uc?export=view&id=1s_Ra3JOQvRDCsOdU_8BSWlWokN5C19NU" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-1.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-2.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-3.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-4.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-5.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-6.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-7.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-8.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-9.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-10.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-11.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-12.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-13.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-14.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-15.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-16.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-17.jpg" },
+  { label: "Le Particulier", src: "/images/OTAsLeParticulier-18.jpg" },
+  { label: "Los Bowls de Guadalupe", src: "/images/OTAs_BowlsdeGuadalupe-1.jpg" },
+  { label: "Los Bowls de Guadalupe", src: "/images/OTAs_BowlsdeGuadalupe-2.jpg" },
+  { label: "Los Bowls de Guadalupe", src: "/images/OTAs_BowlsdeGuadalupe-3.jpg" },
+  { label: "Los Bowls de Guadalupe", src: "/images/OTAs_BowlsdeGuadalupe-4.jpg" },
+  { label: "Los Bowls de Guadalupe", src: "/images/OTAs_BowlsdeGuadalupe-5.jpg" },
 ];
 
 // ── NDA RECORD ──
@@ -92,18 +96,19 @@ function AccessGate({ onAccept }) {
     onAccept({ name, company, email, broker: "" });
   };
 
-  const inputStyle = { width: "100%", padding: "12px 16px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 3, color: "#fff", fontSize: 14, outline: "none", fontFamily: "inherit", boxSizing: "border-box" };
+  const inputStyle = { width: "100%", padding: "14px 16px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 0, color: "#fff", fontSize: 13, outline: "none", fontFamily: FONT, boxSizing: "border-box", letterSpacing: 0.5, transition: "border-color 0.3s", };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0d1f33", display: "flex", alignItems: "center", justifyContent: "center", padding: mobile ? 12 : 20, position: "relative", overflow: "hidden" }}>
-      <div style={{ maxWidth: 520, width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(200,169,81,0.3)", borderRadius: 4, padding: mobile ? "28px 16px" : 48, position: "relative", zIndex: 1 }}>
+    <div style={{ minHeight: "100vh", background: DARK, display: "flex", alignItems: "center", justifyContent: "center", padding: mobile ? 12 : 20, position: "relative", overflow: "hidden", fontFamily: FONT }}>
+      <div style={{ maxWidth: 520, width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(184,152,110,0.2)", borderRadius: 0, padding: mobile ? "28px 16px" : 56, position: "relative", zIndex: 1 }}>
 
-        <div style={{ textAlign: "center", marginBottom: mobile ? 20 : 32 }}>
-          <div style={{ letterSpacing: mobile ? 3 : 6, fontSize: mobile ? 11 : 13, color: GOLD, marginBottom: 8, fontFamily: "'Cormorant Garamond', serif" }}>EXCLUSIVE OFFERING</div>
-          <div style={{ fontSize: mobile ? 24 : 32, fontWeight: 300, color: "#fff", letterSpacing: mobile ? 2 : 4, fontFamily: "'Cormorant Garamond', serif" }}>LE PARTICULIER</div>
-          <div style={{ fontSize: mobile ? 11 : 13, color: "rgba(255,255,255,0.5)", marginTop: 8, letterSpacing: mobile ? 1 : 2 }}>4130 COLLINS AVENUE &middot; MIAMI BEACH</div>
-          <div style={{ width: 60, height: 1, background: GOLD, margin: "20px auto" }} />
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", letterSpacing: 3, textTransform: "uppercase" }}>Confidential Investment Portal</div>
+        <div style={{ textAlign: "center", marginBottom: mobile ? 20 : 36 }}>
+          <img src="/images/Related Logo.jpeg" alt="" style={{ height: 28, opacity: 0.7, marginBottom: 20, filter: "invert(1)", mixBlendMode: "screen" }} />
+          <div style={{ letterSpacing: mobile ? 4 : 8, fontSize: mobile ? 10 : 11, color: ACCENT, marginBottom: 12, fontWeight: 400 }}>EXCLUSIVE OFFERING</div>
+          <div style={{ fontSize: mobile ? 28 : 40, fontWeight: 300, color: "#fff", letterSpacing: mobile ? 3 : 6, fontFamily: SERIF }}>LE PARTICULIER</div>
+          <div style={{ fontSize: mobile ? 10 : 12, color: "rgba(255,255,255,0.35)", marginTop: 10, letterSpacing: mobile ? 2 : 3, fontWeight: 300 }}>4130 COLLINS AVENUE · MIAMI BEACH</div>
+          <div style={{ width: 40, height: 1, background: ACCENT, margin: "24px auto" }} />
+          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", letterSpacing: 4, textTransform: "uppercase", fontWeight: 300 }}>Confidential Investment Portal</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -168,7 +173,7 @@ function AccessGate({ onAccept }) {
 }
 function MetricCard({ label, value, sub, accent }) {
   return (
-    <div style={{ background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, padding: "16px 16px", borderTop: `3px solid ${accent || NAVY}` }}>
+    <div style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: "16px 16px", borderTop: `3px solid ${accent || NAVY}` }}>
       <div style={{ fontSize: 10, color: "#999", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>{label}</div>
       <div style={{ fontSize: 22, fontWeight: 300, color: NAVY, fontFamily: "'Cormorant Garamond', serif" }}>{value}</div>
       {sub && <div style={{ fontSize: 11, color: "#888", marginTop: 4 }}>{sub}</div>}
@@ -178,10 +183,10 @@ function MetricCard({ label, value, sub, accent }) {
 
 function Tab({ tabs, active, onChange }) {
   return (
-    <div style={{ display: "flex", gap: 0, borderBottom: `2px solid #e8e6e1`, marginBottom: 24, overflowX: "auto", WebkitOverflowScrolling: "touch", msOverflowStyle: "none", scrollbarWidth: "none" }}>
+    <div style={{ display: "flex", gap: 0, borderBottom: "1px solid #e0ddd8", marginBottom: 28, overflowX: "auto", WebkitOverflowScrolling: "touch", msOverflowStyle: "none", scrollbarWidth: "none" }}>
       {tabs.map((t) => (
         <button key={t} onClick={() => onChange(t)}
-          style={{ padding: "10px 16px", background: "none", border: "none", borderBottom: active === t ? `2px solid ${GOLD}` : "2px solid transparent", marginBottom: -2, color: active === t ? NAVY : "#999", fontSize: 12, fontWeight: active === t ? 600 : 400, letterSpacing: 1, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", whiteSpace: "nowrap", flexShrink: 0 }}>
+          style={{ padding: "12px 18px", background: "none", border: "none", borderBottom: active === t ? `2px solid ${ACCENT}` : "2px solid transparent", marginBottom: -1, color: active === t ? DARK : "#aaa", fontSize: 10, fontWeight: active === t ? 600 : 400, letterSpacing: 2, textTransform: "uppercase", cursor: "pointer", transition: "all 0.3s", whiteSpace: "nowrap", flexShrink: 0, fontFamily: FONT }}>
           {t}
         </button>
       ))}
@@ -192,14 +197,14 @@ function Tab({ tabs, active, onChange }) {
 function DataTable({ headers, rows, highlight }) {
   return (
     <div style={{ overflowX: "auto" }}>
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: FONT }}>
         <thead>
-          <tr>{headers.map((h, i) => <th key={i} style={{ padding: "10px 14px", background: NAVY, color: "#fff", textAlign: i === 0 ? "left" : "right", fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", whiteSpace: "nowrap" }}>{h}</th>)}</tr>
+          <tr>{headers.map((h, i) => <th key={i} style={{ padding: "12px 14px", background: DARK, color: "#fff", textAlign: i === 0 ? "left" : "right", fontSize: 10, letterSpacing: 2, textTransform: "uppercase", whiteSpace: "nowrap", fontWeight: 500 }}>{h}</th>)}</tr>
         </thead>
         <tbody>
           {rows.map((row, ri) => (
-            <tr key={ri} style={{ background: highlight === ri ? "rgba(200,169,81,0.08)" : ri % 2 === 0 ? "#fff" : "#fafaf7" }}>
-              {row.map((cell, ci) => <td key={ci} style={{ padding: "10px 14px", borderBottom: "1px solid #eee", textAlign: ci === 0 ? "left" : "right", fontWeight: highlight === ri || ci === 0 ? 600 : 400, color: highlight === ri ? NAVY : DARK, whiteSpace: "nowrap" }}>{cell}</td>)}
+            <tr key={ri} style={{ background: highlight === ri ? "rgba(184,152,110,0.06)" : ri % 2 === 0 ? "#fff" : "#fafaf8" }}>
+              {row.map((cell, ci) => <td key={ci} style={{ padding: "10px 14px", borderBottom: "1px solid #eee", textAlign: ci === 0 ? "left" : "right", fontWeight: highlight === ri || ci === 0 ? 600 : 400, color: highlight === ri ? DARK : DARK, whiteSpace: "nowrap" }}>{cell}</td>)}
             </tr>
           ))}
         </tbody>
@@ -221,7 +226,7 @@ function Overview() {
 
       <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: 24, marginBottom: 24 }}>
         <div>
-          <h3 style={{ fontSize: 14, color: NAVY, letterSpacing: 2, textTransform: "uppercase", marginBottom: 16, borderBottom: `1px solid ${GOLD}`, paddingBottom: 8 }}>Property</h3>
+          <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 16, borderBottom: `1px solid ${GOLD}`, paddingBottom: 8 }}>Property</h3>
           {[
             ["Address", "4130 Collins Ave, Miami Beach, FL 33140"],
             ["Keys", "54 (7 stories, reinforced concrete)"],
@@ -238,7 +243,7 @@ function Overview() {
           ))}
         </div>
         <div>
-          <h3 style={{ fontSize: 14, color: NAVY, letterSpacing: 2, textTransform: "uppercase", marginBottom: 16, borderBottom: `1px solid ${GOLD}`, paddingBottom: 8 }}>Location Highlights</h3>
+          <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 16, borderBottom: `1px solid ${GOLD}`, paddingBottom: 8 }}>Location Highlights</h3>
           {[
             ["Soho Beach House", "3 blocks (4385 Collins)"],
             ["Corridor Investment", "$2B+ (Aman, Rosewood, Bulgari, Auberge)"],
@@ -271,7 +276,7 @@ function Overview() {
 function Financials() {
   return (
     <div>
-      <h3 style={{ fontSize: 14, color: NAVY, letterSpacing: 2, textTransform: "uppercase", marginBottom: 16 }}>Pro Forma Summary (All Management Fees Included)</h3>
+      <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 16 }}>Pro Forma Summary (All Management Fees Included)</h3>
       <DataTable
         headers={["Metric", "Year 1", "Year 2 (Stab)", "Year 3", "Year 5"]}
         rows={[
@@ -302,7 +307,7 @@ function Financials() {
       />
 
       <div style={{ marginTop: 32 }}>
-        <h3 style={{ fontSize: 14, color: NAVY, letterSpacing: 2, textTransform: "uppercase", marginBottom: 16 }}>Return Analysis at Various Price Points</h3>
+        <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 16 }}>Return Analysis at Various Price Points</h3>
         <DataTable
           headers={["Metric", "$21,500,000", "$20,000,000", "$19,500,000"]}
           rows={[
@@ -364,10 +369,10 @@ function Scenarios() {
 
   return (
     <div>
-      <h3 style={{ fontSize: 14, color: NAVY, letterSpacing: 2, textTransform: "uppercase", marginBottom: 24 }}>Interactive Scenario Builder — Year 2 Stabilized</h3>
+      <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 24 }}>Interactive Scenario Builder — Year 2 Stabilized</h3>
 
       <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: 24, marginBottom: 32 }}>
-        <div style={{ background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, padding: 24 }}>
+        <div style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: 24 }}>
           <h4 style={{ fontSize: 12, color: GOLD, letterSpacing: 2, textTransform: "uppercase", marginBottom: 20 }}>Adjust Assumptions</h4>
 
           {[
@@ -391,7 +396,7 @@ function Scenarios() {
           </label>
         </div>
 
-        <div style={{ background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, padding: 24 }}>
+        <div style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: 24 }}>
           <h4 style={{ fontSize: 12, color: GOLD, letterSpacing: 2, textTransform: "uppercase", marginBottom: 20 }}>Projected Results</h4>
 
           <div style={{ textAlign: "center", marginBottom: 24, padding: 20, background: capRate >= 9 ? "rgba(46,125,50,0.06)" : capRate >= 7 ? "rgba(200,169,81,0.08)" : "rgba(198,40,40,0.06)", borderRadius: 4 }}>
@@ -465,7 +470,7 @@ function SubmitOffer({ buyer }) {
     setSubmitting(false);
   };
 
-  const inputStyle = { width: "100%", padding: "12px 16px", background: "#fff", border: "1px solid #e8e6e1", borderRadius: 3, color: DARK, fontSize: 14, outline: "none", fontFamily: "inherit", boxSizing: "border-box" };
+  const inputStyle = { width: "100%", padding: "12px 16px", background: "#fff", border: "1px solid #e8e5e0", borderRadius: 3, color: DARK, fontSize: 14, outline: "none", fontFamily: "inherit", boxSizing: "border-box" };
 
   if (status === "success") {
     return (
@@ -486,10 +491,10 @@ function SubmitOffer({ buyer }) {
 
   return (
     <div style={{ maxWidth: 520, margin: "0 auto" }}>
-      <h3 style={{ fontSize: 14, color: NAVY, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>Submit Your Offer</h3>
+      <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 8 }}>Submit Your Offer</h3>
       <p style={{ fontSize: 13, color: "#888", marginBottom: 24 }}>Upload your Letter of Intent directly to the listing team through this secure portal.</p>
 
-      <div style={{ background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, padding: 32, marginBottom: 16 }}>
+      <div style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: 32, marginBottom: 16 }}>
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>BUYER</div>
           <div style={{ fontSize: 14, color: NAVY, fontWeight: 600 }}>{buyer.name} — {buyer.company}</div>
@@ -715,7 +720,7 @@ RULES: Professional, concise, positive but honest. If unsure: "I'll have Andres 
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: 500 }}>
-      <div ref={chatRef} style={{ flex: 1, overflowY: "auto", padding: 16, background: "#fafaf7", borderRadius: 4, border: "1px solid #e8e6e1", marginBottom: 16 }}>
+      <div ref={chatRef} style={{ flex: 1, overflowY: "auto", padding: 16, background: "#fafaf7", borderRadius: 4, border: "1px solid #e8e5e0", marginBottom: 16 }}>
         {messages.length === 0 && (
           <div style={{ textAlign: "center", padding: 24, color: "#aaa" }}>
             <div style={{ fontSize: 24, marginBottom: 12 }}>💬</div>
@@ -767,7 +772,7 @@ RULES: Professional, concise, positive but honest. If unsure: "I'll have Andres 
         ))}
         {loading && (
           <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: 16 }}>
-            <div style={{ padding: "12px 16px", background: "#fff", border: "1px solid #e8e6e1", borderRadius: 12, fontSize: 13, color: "#aaa" }}>
+            <div style={{ padding: "12px 16px", background: "#fff", border: "1px solid #e8e5e0", borderRadius: 12, fontSize: 13, color: "#aaa" }}>
               Analyzing...
             </div>
           </div>
@@ -780,7 +785,7 @@ RULES: Professional, concise, positive but honest. If unsure: "I'll have Andres 
           placeholder="Ask about financials, market data, contracts, property details..."
           style={{ flex: 1, padding: "12px 16px", border: "1px solid #ddd", borderRadius: 4, fontSize: 14, outline: "none", fontFamily: "inherit" }} />
         <button onClick={sendMessage} disabled={loading || !input.trim()}
-          style={{ padding: "12px 24px", background: NAVY, color: "#fff", border: "none", borderRadius: 4, fontSize: 13, fontWeight: 600, letterSpacing: 1, cursor: "pointer" }}>
+          style={{ padding: "12px 24px", background: DARK, color: "#fff", border: "none", borderRadius: 4, fontSize: 13, fontWeight: 600, letterSpacing: 1, cursor: "pointer" }}>
           Send
         </button>
       </div>
@@ -795,7 +800,7 @@ function Gallery() {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, flexWrap: "wrap", gap: 8 }}>
-        <h3 style={{ fontSize: 14, color: NAVY, letterSpacing: 2, textTransform: "uppercase", margin: 0 }}>Property Gallery</h3>
+        <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, margin: 0 }}>Property Gallery</h3>
         <a href="https://www.leparticuliermiami.com/#gallery" target="_blank" rel="noopener noreferrer"
           style={{ fontSize: 12, color: BLUE, textDecoration: "none", letterSpacing: 1 }}>
           View Full Gallery on Hotel Website \u2192
@@ -805,7 +810,7 @@ function Gallery() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
         {images.map((img, i) => (
           <div key={i} onClick={() => setSelected(i)}
-            style={{ cursor: "pointer", borderRadius: 4, overflow: "hidden", position: "relative", aspectRatio: "4/3", background: "#eee", border: "1px solid #e8e6e1" }}>
+            style={{ cursor: "pointer", borderRadius: 4, overflow: "hidden", position: "relative", aspectRatio: "4/3", background: "#eee", border: "1px solid #e8e5e0" }}>
             <img src={img.src} alt={img.label}
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "8px 12px", background: "linear-gradient(transparent, rgba(0,0,0,0.7))", color: "#fff", fontSize: 12, letterSpacing: 1 }}>
@@ -845,7 +850,7 @@ function Gallery() {
           { icon: "\ud83c\udfe8", label: "Hotel Website", sub: "All rooms & booking", href: "https://www.leparticuliermiami.com/rooms" },
         ].map((item) => (
           <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
-            style={{ display: "block", textDecoration: "none", background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, padding: 20, textAlign: "center" }}>
+            style={{ display: "block", textDecoration: "none", background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: 20, textAlign: "center" }}>
             <div style={{ fontSize: 28, marginBottom: 8 }}>{item.icon}</div>
             <div style={{ fontSize: 14, fontWeight: 600, color: NAVY }}>{item.label}</div>
             <div style={{ fontSize: 12, color: "#888" }}>{item.sub}</div>
@@ -870,7 +875,7 @@ function Contact() {
     <div style={{ maxWidth: 560, margin: "0 auto" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
         {team.map((person) => (
-          <div key={person.initials} style={{ background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, overflow: "hidden" }}>
+          <div key={person.initials} style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, overflow: "hidden" }}>
             <div style={{ background: NAVY, padding: "24px 32px", display: "flex", alignItems: "center", gap: 16 }}>
               <div style={{ width: 56, height: 56, borderRadius: "50%", background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 300, color: NAVY, fontFamily: "'Cormorant Garamond', serif", flexShrink: 0 }}>{person.initials}</div>
               <div>
@@ -897,7 +902,7 @@ function Contact() {
         ))}
       </div>
 
-      <div style={{ marginTop: 20, background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, padding: "16px 32px" }}>
+      <div style={{ marginTop: 20, background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: "16px 32px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <span style={{ fontSize: 18 }}>{"\u{1F3E2}"}</span>
           <div>
@@ -908,7 +913,7 @@ function Contact() {
       </div>
 
       <div style={{ marginTop: 20, padding: "0 0 20px", textAlign: "center" }}>
-        <a href="tel:7862135064" style={{ display: "inline-block", padding: "12px 28px", background: NAVY, color: "#fff", borderRadius: 3, fontSize: 13, fontWeight: 600, letterSpacing: 1, textDecoration: "none", marginRight: 8 }}>
+        <a href="tel:7862135064" style={{ display: "inline-block", padding: "12px 28px", background: DARK, color: "#fff", borderRadius: 3, fontSize: 13, fontWeight: 600, letterSpacing: 1, textDecoration: "none", marginRight: 8 }}>
           Call Now
         </a>
         <a href="mailto:andresg@related-realty.com,tomas@related-realty.com?subject=Le%20Particulier%20-%20Inquiry" style={{ display: "inline-block", padding: "12px 28px", background: GOLD, color: NAVY, borderRadius: 3, fontSize: 13, fontWeight: 600, letterSpacing: 1, textDecoration: "none" }}>
@@ -949,14 +954,14 @@ function Documents() {
       </div>
 
       <div onClick={() => copyLink(FOLDER_URL, "folder")}
-        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, background: NAVY, color: "#fff", borderRadius: 4, padding: "18px 24px", cursor: "pointer", marginBottom: 20, fontSize: 14, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, background: DARK, color: "#fff", borderRadius: 4, padding: "18px 24px", cursor: "pointer", marginBottom: 20, fontSize: 14, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>
         {copied === "folder" ? "\u2705 Link Copied \u2014 Paste in Browser" : "\uD83D\uDCC2 Copy Data Room Link"}
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {docs.map((doc) => (
           <div key={doc.name} onClick={() => copyLink(doc.url, doc.name)}
-            style={{ display: "flex", alignItems: "center", gap: 16, background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, padding: mobile ? "14px 14px" : "16px 24px", borderLeft: "3px solid " + NAVY, cursor: "pointer", transition: "all 0.2s" }}>
+            style={{ display: "flex", alignItems: "center", gap: 16, background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: mobile ? "14px 14px" : "16px 24px", borderLeft: "3px solid " + NAVY, cursor: "pointer", transition: "all 0.2s" }}>
             <div style={{ fontSize: 24, flexShrink: 0, width: 36, textAlign: "center" }}>{doc.icon}</div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 13, fontWeight: 600, color: NAVY, marginBottom: 2 }}>{doc.name}</div>
@@ -991,7 +996,7 @@ function OffersLog() {
         if (k && k.startsWith("offer:")) {
           try {
             const raw = localStorage.getItem(k);
-            if (raw) all.push(JSON.parse(raw));
+            if (raw) all.push({ ...JSON.parse(raw), _key: k });
           } catch(e) {}
         }
       }
@@ -1015,42 +1020,30 @@ function OffersLog() {
     } catch(e) {}
   };
 
-  const deleteAllOffers = () => {
-    if (!window.confirm("Delete ALL offers? This cannot be undone.")) return;
-    const keysToRemove = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const k = localStorage.key(i);
-      if (k && k.startsWith("offer:")) keysToRemove.push(k);
-    }
-    keysToRemove.forEach(k => localStorage.removeItem(k));
-    setOffers([]);
+  const deleteOffer = (offer) => {
+    if (!window.confirm("Delete offer from " + (offer.name || "unknown") + "?")) return;
+    try { localStorage.removeItem(offer._key); } catch(e) {}
+    setOffers(prev => prev.filter(o => o._key !== offer._key));
   };
 
   useEffect(() => { loadOffers(); }, []);
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 8 }}>
-        <h3 style={{ fontSize: 14, color: NAVY, letterSpacing: 2, textTransform: "uppercase", margin: 0 }}>Offers Received</h3>
-        <div style={{ display: "flex", gap: 8 }}>
-          {offers.length > 0 && (
-            <button onClick={deleteAllOffers} style={{ padding: "6px 16px", background: "#c0392b", color: "#fff", border: "none", borderRadius: 3, fontSize: 12, cursor: "pointer", fontWeight: 600 }}>
-              🗑 Delete All
-            </button>
-          )}
-          <button onClick={loadOffers} style={{ padding: "6px 16px", background: NAVY, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, cursor: "pointer" }}>
-            {loading ? "Loading..." : "Refresh"}
-          </button>
-        </div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, margin: 0 }}>Offers Received</h3>
+        <button onClick={loadOffers} style={{ padding: "6px 16px", background: DARK, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, cursor: "pointer" }}>
+          {loading ? "Loading..." : "Refresh"}
+        </button>
       </div>
       {error && <div style={{ padding: 12, background: "#fff3e0", border: "1px solid #ffe0b2", borderRadius: 4, fontSize: 12, color: "#e65100", marginBottom: 12 }}>{error}</div>}
       {!loading && offers.length === 0 && !error && (
-        <div style={{ padding: 32, background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, textAlign: "center", color: "#888", fontSize: 13 }}>No offers received yet.</div>
+        <div style={{ padding: 32, background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, textAlign: "center", color: "#888", fontSize: 13 }}>No offers received yet.</div>
       )}
       {offers.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {offers.map((o, i) => (
-            <div key={i} style={{ background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, padding: 24, borderLeft: "4px solid " + GOLD }}>
+            <div key={i} style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: 24, borderLeft: "3px solid " + ACCENT }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                 <div>
                   <div style={{ fontSize: 16, fontWeight: 600, color: NAVY }}>{o.name}</div>
@@ -1063,10 +1056,16 @@ function OffersLog() {
                 </div>
               </div>
               {o.notes && <div style={{ fontSize: 13, color: DARK, padding: "10px 0", borderTop: "1px solid #f0f0ec", marginBottom: 12 }}>{o.notes}</div>}
-              <button onClick={() => downloadFile(o)}
-                style={{ padding: "10px 24px", background: NAVY, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: "pointer" }}>
-                {"\uD83D\uDCC4"} Download {o.fileName || "LOI"}
-              </button>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <button onClick={() => downloadFile(o)}
+                  style={{ padding: "10px 24px", background: DARK, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: "pointer" }}>
+                  {"\uD83D\uDCC4"} Download {o.fileName || "LOI"}
+                </button>
+                <button onClick={() => deleteOffer(o)}
+                  style={{ padding: "10px 16px", background: "transparent", color: "#c0392b", border: "1px solid #c0392b", borderRadius: 3, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                  🗑 Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -1091,7 +1090,7 @@ function VisitorLog() {
         if (k && k.startsWith("v:")) {
           try {
             const raw = localStorage.getItem(k);
-            if (raw) all.push(JSON.parse(raw));
+            if (raw) all.push({ ...JSON.parse(raw), _key: k });
           } catch(e) {}
         }
       }
@@ -1104,29 +1103,36 @@ function VisitorLog() {
     setLoading(false);
   };
 
+  const deleteEntry = (entry) => {
+    if (!window.confirm("Delete visitor " + (entry.name || "unknown") + "?")) return;
+    try { localStorage.removeItem(entry._key); } catch(e) {}
+    setEntries(prev => prev.filter(e => e._key !== entry._key));
+  };
+
   useEffect(() => { loadLog(); }, []);
 
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h3 style={{ fontSize: 14, color: NAVY, letterSpacing: 2, textTransform: "uppercase", margin: 0 }}>Visitor Log</h3>
-        <button onClick={loadLog} style={{ padding: "6px 16px", background: NAVY, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, cursor: "pointer" }}>
+        <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, margin: 0 }}>Visitor Log</h3>
+        <button onClick={loadLog} style={{ padding: "6px 16px", background: DARK, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, cursor: "pointer" }}>
           {loading ? "Loading..." : "Refresh"}
         </button>
       </div>
       {error && <div style={{ padding: 12, background: "#fff3e0", border: "1px solid #ffe0b2", borderRadius: 4, fontSize: 12, color: "#e65100", marginBottom: 12 }}>{error}</div>}
       {!loading && entries.length === 0 && !error && (
-        <div style={{ padding: 32, background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, textAlign: "center", color: "#888", fontSize: 13 }}>No visitors logged yet.</div>
+        <div style={{ padding: 32, background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, textAlign: "center", color: "#888", fontSize: 13 }}>No visitors logged yet.</div>
       )}
       {entries.length > 0 && (
-        <div style={{ background: "#fff", border: "1px solid #e8e6e1", borderRadius: 4, overflow: "hidden" }}>
+        <div style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, overflow: "hidden" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
-              <tr style={{ background: NAVY, color: "#fff" }}>
+              <tr style={{ background: DARK, color: "#fff" }}>
                 <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>NAME</th>
                 <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>COMPANY</th>
                 <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>EMAIL</th>
                 <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>DATE</th>
+                <th style={{ padding: "10px 8px", textAlign: "center", fontWeight: 600, fontSize: 11, letterSpacing: 1, width: 60 }}></th>
               </tr>
             </thead>
             <tbody>
@@ -1136,6 +1142,11 @@ function VisitorLog() {
                   <td style={{ padding: "10px 16px", color: DARK }}>{e.company}</td>
                   <td style={{ padding: "10px 16px", color: DARK }}>{e.email}</td>
                   <td style={{ padding: "10px 16px", color: "#888", fontSize: 12 }}>{e.date}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "center" }}>
+                    <button onClick={() => deleteEntry(e)}
+                      style={{ background: "transparent", border: "none", color: "#c0392b", cursor: "pointer", fontSize: 14, padding: 4 }}
+                      title="Delete visitor">🗑</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -1159,27 +1170,29 @@ export default function App() {
   if (!buyer) return <AccessGate onAccept={(b) => { setBuyer(b); if (b.admin) setTab("Visitor Log"); }} />;
 
   return (
-    <div style={{ minHeight: "100vh", background: LIGHT, fontFamily: "'DM Sans', -apple-system, sans-serif" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <div style={{ minHeight: "100vh", background: LIGHT, fontFamily: FONT }}>
 
-      <header style={{ background: NAVY, padding: mobile ? "12px 16px" : "16px 32px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div>
-          <div style={{ fontSize: mobile ? 9 : 11, color: GOLD, letterSpacing: mobile ? 2 : 4, fontFamily: "'Cormorant Garamond', serif" }}>EXCLUSIVE OFFERING</div>
-          <div style={{ fontSize: mobile ? 16 : 22, color: "#fff", fontWeight: 300, letterSpacing: mobile ? 1 : 3, fontFamily: "'Cormorant Garamond', serif" }}>LE PARTICULIER</div>
+      <header style={{ background: DARK, padding: mobile ? "16px 16px" : "20px 48px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(184,152,110,0.15)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: mobile ? 12 : 16 }}>
+          <img src="/images/Related Logo.jpeg" alt="Related" style={{ height: mobile ? 28 : 34, opacity: 0.8, filter: "invert(1)", mixBlendMode: "screen" }} />
+          <div>
+            <div style={{ fontSize: mobile ? 18 : 22, color: "#fff", fontWeight: 300, letterSpacing: mobile ? 3 : 5, fontFamily: SERIF }}>LE PARTICULIER</div>
+            <div style={{ fontSize: mobile ? 9 : 10, color: "rgba(255,255,255,0.35)", letterSpacing: mobile ? 2 : 3, fontWeight: 300, marginTop: 2 }}>4130 COLLINS AVENUE · MIAMI BEACH</div>
+          </div>
         </div>
         <div style={{ textAlign: "right" }}>
           {buyer.admin ? (
-            <div style={{ fontSize: mobile ? 11 : 13, color: GOLD, fontWeight: 600, letterSpacing: 2 }}>ADMIN</div>
+            <div style={{ fontSize: mobile ? 10 : 11, color: ACCENT, fontWeight: 500, letterSpacing: 3 }}>ADMIN</div>
           ) : (
             <>
-              <div style={{ fontSize: mobile ? 9 : 11, color: "rgba(255,255,255,0.5)" }}>Logged in as</div>
-              <div style={{ fontSize: mobile ? 11 : 13, color: "#fff" }}>{buyer.name}</div>
+              <div style={{ fontSize: mobile ? 11 : 12, color: "#fff", fontWeight: 300 }}>{buyer.name}</div>
+              <div style={{ fontSize: mobile ? 9 : 10, color: "rgba(255,255,255,0.35)", letterSpacing: 1, fontWeight: 300, marginTop: 2 }}>{buyer.company}</div>
             </>
           )}
         </div>
       </header>
 
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: mobile ? "16px 12px" : "24px 32px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: mobile ? "16px 12px" : "28px 40px" }}>
         <Tab tabs={tabs} active={tab} onChange={setTab} />
 
         {tab === "Visitor Log" && isAdmin && <VisitorLog />}
@@ -1194,15 +1207,17 @@ export default function App() {
         {tab === "Contact" && <Contact />}
       </div>
 
-      <footer style={{ borderTop: "1px solid #e8e6e1", padding: mobile ? "16px 12px" : "20px 32px", textAlign: "center", marginTop: 40 }}>
-        <div style={{ fontSize: 12, color: "#aaa" }}>
-          Andres Grossmann (786) 213-5064 &middot; Tomas Sulichin (305) 788-2878 &middot; Related Realty
+      <footer style={{ borderTop: "1px solid rgba(184,152,110,0.15)", padding: mobile ? "28px 12px" : "36px 48px", textAlign: "center", marginTop: 60, background: DARK }}>
+        <img src="/images/Related Logo.jpeg" alt="" style={{ height: 24, opacity: 0.7, marginBottom: 14, filter: "invert(1)", mixBlendMode: "screen" }} />
+        <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", letterSpacing: 3, fontWeight: 300, fontFamily: SERIF, marginBottom: 12 }}>RELATED REALTY</div>
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: 1, fontWeight: 300, lineHeight: 1.8 }}>
+          Andres Grossmann (786) 213-5064 · Tomas Sulichin (305) 788-2878
         </div>
-        <div style={{ fontSize: 11, color: "#ccc", marginTop: 4 }}>
-          Confidential &mdash; Do Not Distribute
+        <div style={{ width: 30, height: 1, background: "rgba(184,152,110,0.3)", margin: "16px auto" }} />
+        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.25)", letterSpacing: 3, fontWeight: 300 }}>
+          CONFIDENTIAL — DO NOT DISTRIBUTE
         </div>
       </footer>
     </div>
   );
 }
-
