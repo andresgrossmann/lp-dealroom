@@ -33,11 +33,6 @@ const pct = (n) => (n * 100).toFixed(1) + "%";
 // ║  GALLERY PHOTOS                                              ║
 // ╚══════════════════════════════════════════════════════════════╝
 const GALLERY_IMAGES = [
-  { label: "Exterior — Collins Avenue Facade", src: "/images/exterior.jpg" },
-  { label: "Lobby Lounge — Art Deco Interior", src: "/images/lobby.jpg" },
-  { label: "Lobby Bar & Reception", src: "/images/lobby-bar.jpg" },
-  { label: "Guest Room — Water View", src: "/images/guest-room.jpg" },
-  { label: "Elevator — Renovated Interior", src: "/images/elevator.jpg" },
   { label: "Le Particulier", src: "/images/OTAsLeParticulier-1.jpg" },
   { label: "Le Particulier", src: "/images/OTAsLeParticulier-2.jpg" },
   { label: "Le Particulier", src: "/images/OTAsLeParticulier-3.jpg" },
@@ -930,7 +925,7 @@ function Documents() {
   const FOLDER_URL = "https://drive.google.com/drive/folders/1JSCy6B9137GW30FtH0wUtKOrE73zwj6G?usp=sharing";
   const docs = [
     { name: "Offering Memorandum", desc: "Confidential OM with full financial analysis, market context, and comparable sales", icon: "\uD83D\uDCD8", url: "https://drive.google.com/file/d/1BuTFQRNxfJtBCBdeK4YgC9Qg7DiwGZiZ/view?usp=sharing" },
-    { name: "Pro Forma (2026\u20132027)", desc: "Detailed monthly P&L \u2014 Year 1 with Jan\u2013Feb actuals, Year 2 stabilized", icon: "\uD83D\uDCC8", url: "https://docs.google.com/spreadsheets/d/1B-GTLHBoZMS014e-fi96iPziEu4zUlLR/edit?usp=sharing&ouid=113699395715492196821&rtpof=true&sd=true" },
+    { name: "Pro Forma (2026\u20132027)", desc: "Detailed monthly P&L \u2014 Year 1 with Jan\u2013Feb actuals, Year 2 stabilized", icon: "\uD83D\uDCC8", url: "https://docs.google.com/spreadsheets/d/1wHNxjnKKaKaa6iof2sPLxs7JtbMkPnuRETSfu4P04xw/edit?usp=sharing" },
     { name: "Hotel Management Agreement", desc: "Fully executed HMA with Namron Hospitality \u2014 includes GOP guarantee provisions", icon: "\uD83D\uDCDD", url: "https://drive.google.com/file/d/1Nl603TdE5-t9LX2swiHVeyDJ1VwE-Ff2/view?usp=sharing" },
     { name: "Restaurant Lease Agreement", desc: "Bowls de Guadalupe \u2014 7-year term, $10\u201311K/mo minimum or 10% gross revenue", icon: "\uD83C\uDF7D\uFE0F", url: "https://drive.google.com/file/d/16iXnX4WeUeCEzx49KzncR9TAtkkCBQSy/view?usp=sharing" },
     { name: "Beach Resort Agreement", desc: "Joy Beachsports Management \u2014 5-year term with extension option", icon: "\uD83C\uDFD6\uFE0F", url: "https://drive.google.com/file/d/1tZlEm8_HlgaimuRL8Ke3IzmJzb1w2wHM/view?usp=drive_link" },
