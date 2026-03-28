@@ -69,13 +69,14 @@ function AccessGate({ onAccept }) {
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [adminPin, setAdminPin] = useState("");
 
   const ACCESS_CODE = "LP4130";
-  const valid = name && company && email && code;
+  const valid = name && company && email && role && code;
 
   const handleEnter = () => {
     if (!valid) return;
@@ -87,10 +88,10 @@ function AccessGate({ onAccept }) {
     try {
       fetch(API_URL, {
         method: "POST",
-        body: JSON.stringify({ action: "logVisitor", name, company, email, date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) }),
+        body: JSON.stringify({ action: "logVisitor", name, company, email, role, date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) }),
       });
     } catch(e) {}
-    onAccept({ name, company, email, broker: "" });
+    onAccept({ name, company, email, role, broker: "" });
   };
 
   const inputStyle = { width: "100%", padding: "14px 16px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 0, color: "#fff", fontSize: 13, outline: "none", fontFamily: FONT, boxSizing: "border-box", letterSpacing: 0.5, transition: "border-color 0.3s", };
@@ -115,6 +116,18 @@ function AccessGate({ onAccept }) {
               <input type={type} value={val} onChange={(e) => { setter(e.target.value); setError(""); }} style={inputStyle} />
             </div>
           ))}
+
+          <div>
+            <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>I am a... *</label>
+            <div style={{ display: "flex", gap: 10 }}>
+              {["Broker", "Principal / Direct Buyer"].map((r) => (
+                <button key={r} onClick={() => { setRole(r); setError(""); }}
+                  style={{ flex: 1, padding: "12px 16px", background: role === r ? "rgba(184,152,110,0.15)" : "rgba(255,255,255,0.04)", border: role === r ? "1px solid " + ACCENT : "1px solid rgba(255,255,255,0.12)", color: role === r ? ACCENT : "rgba(255,255,255,0.5)", fontSize: 12, fontWeight: role === r ? 600 : 400, letterSpacing: 1, cursor: "pointer", fontFamily: FONT, transition: "all 0.3s" }}>
+                  {r}
+                </button>
+              ))}
+            </div>
+          </div>
 
           <div>
             <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>Access Code *</label>
@@ -1108,6 +1121,7 @@ function VisitorLog() {
                 <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>NAME</th>
                 <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>COMPANY</th>
                 <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>EMAIL</th>
+                <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>ROLE</th>
                 <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>DATE</th>
                 <th style={{ padding: "10px 8px", textAlign: "center", fontWeight: 600, fontSize: 11, letterSpacing: 1, width: 60 }}></th>
               </tr>
@@ -1118,6 +1132,7 @@ function VisitorLog() {
                   <td style={{ padding: "10px 16px", fontWeight: 600, color: NAVY }}>{e.name}</td>
                   <td style={{ padding: "10px 16px", color: DARK }}>{e.company}</td>
                   <td style={{ padding: "10px 16px", color: DARK }}>{e.email}</td>
+                  <td style={{ padding: "10px 16px" }}><span style={{ padding: "3px 10px", borderRadius: 3, fontSize: 11, fontWeight: 600, letterSpacing: 1, background: e.role === "Broker" ? "rgba(184,152,110,0.12)" : "rgba(46,125,50,0.1)", color: e.role === "Broker" ? ACCENT : "#2E7D32" }}>{e.role || "—"}</span></td>
                   <td style={{ padding: "10px 16px", color: "#888", fontSize: 12 }}>{e.date}</td>
                   <td style={{ padding: "10px 8px", textAlign: "center" }}>
                     <button onClick={() => deleteEntry(e)}
