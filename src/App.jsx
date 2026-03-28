@@ -15,7 +15,7 @@ const BLUE = "#1c1c1c";
 const ACCENT = "#B8986E";
 const FONT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
-const API_URL = "https://script.google.com/macros/s/AKfycbz8yNULiDcJxPX0AfXOi62D8mhP8kPB5I2Hx0v9_ocwK_61tU33_kTM-yqRcnayst40yw/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbx61QIXHXyyS_R_-_qoSFKSDXpoTlrtpaEcXt9GIOf_OlyNiIQuhc5DZoFZIkF1H6QOug/exec";
 
 const DEAL = {
   price: 21500000,
