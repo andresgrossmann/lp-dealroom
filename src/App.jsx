@@ -431,11 +431,23 @@ function Scenarios() {
 function SubmitOffer({ buyer }) {
   const [price, setPrice] = useState("");
   const [notes, setNotes] = useState("");
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("");
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  const handleFile = (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    if (f.size > 4500000) { setStatus("File too large. Maximum 4.5MB."); return; }
+    setFileName(f.name);
+    const reader = new FileReader();
+    reader.onload = () => setFile(reader.result);
+    reader.readAsDataURL(f);
+  };
+
   const handleSubmit = async () => {
-    if (!price) { setStatus("Please enter an offer price."); return; }
+    if (!file) { setStatus("Please attach your LOI document."); return; }
     setSubmitting(true);
     setStatus("");
     try {
@@ -445,13 +457,15 @@ function SubmitOffer({ buyer }) {
           action: "logOffer",
           name: buyer.name, company: buyer.company, email: buyer.email,
           price: price || "Not specified", notes: notes || "",
+          fileName: fileName,
+          fileData: file,
           date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
         }),
       });
       setStatus("success");
-      setPrice(""); setNotes("");
+      setPrice(""); setNotes(""); setFile(null); setFileName("");
     } catch(e) {
-      setStatus("Error submitting. Please email your offer to andresg@related-realty.com");
+      setStatus("Error submitting. Please email your LOI to andresg@related-realty.com");
     }
     setSubmitting(false);
   };
@@ -464,8 +478,7 @@ function SubmitOffer({ buyer }) {
         <div style={{ fontSize: 48, marginBottom: 16 }}>{"\u2705"}</div>
         <div style={{ fontSize: 22, color: NAVY, fontFamily: SERIF, fontWeight: 500, marginBottom: 12 }}>Offer Received</div>
         <p style={{ fontSize: 13, color: "#888", lineHeight: 1.7 }}>
-          Thank you, {buyer.name}. Your offer has been submitted to the listing team.<br/>
-          Please email your LOI document to <strong>andresg@related-realty.com</strong><br/>
+          Thank you, {buyer.name}. Your LOI has been submitted to the listing team.<br/>
           We will review and respond within 24 hours.
         </p>
         <div style={{ marginTop: 24, fontSize: 13, color: DARK }}>
@@ -479,7 +492,7 @@ function SubmitOffer({ buyer }) {
   return (
     <div style={{ maxWidth: 520, margin: "0 auto" }}>
       <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 8 }}>Submit Your Offer</h3>
-      <p style={{ fontSize: 13, color: "#888", marginBottom: 24 }}>Submit your offer details below. Please email your LOI document to andresg@related-realty.com</p>
+      <p style={{ fontSize: 13, color: "#888", marginBottom: 24 }}>Upload your Letter of Intent directly to the listing team through this secure portal.</p>
 
       <div style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: 32, marginBottom: 16 }}>
         <div style={{ marginBottom: 20 }}>
@@ -489,13 +502,24 @@ function SubmitOffer({ buyer }) {
         </div>
 
         <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>OFFER PRICE *</div>
+          <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>OFFER PRICE (OPTIONAL)</div>
           <input type="text" placeholder="e.g. $20,000,000" value={price} onChange={e => { const num = e.target.value.replace(/[^0-9]/g, ""); setPrice(num ? "$" + parseInt(num).toLocaleString("en-US") : ""); }} style={inputStyle} />
         </div>
 
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>COMMENTS / KEY TERMS (OPTIONAL)</div>
-          <textarea rows={4} placeholder="Key terms, timing, conditions, contingencies..." value={notes} onChange={e => setNotes(e.target.value)} style={{ ...inputStyle, resize: "vertical" }} />
+          <textarea rows={3} placeholder="Key terms, timing, conditions, contingencies..." value={notes} onChange={e => setNotes(e.target.value)} style={{ ...inputStyle, resize: "vertical" }} />
+        </div>
+
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>ATTACH LOI DOCUMENT *</div>
+          <label style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: 24, border: "2px dashed " + (fileName ? "#2E7D32" : "#e8e6e1"), borderRadius: 4, cursor: "pointer", background: fileName ? "rgba(46,125,50,0.04)" : "#fafaf7", transition: "all 0.2s" }}>
+            <input type="file" accept=".pdf,.doc,.docx" onChange={handleFile} style={{ display: "none" }} />
+            <span style={{ fontSize: 24 }}>{fileName ? "\u2705" : "\uD83D\uDCCE"}</span>
+            <span style={{ fontSize: 13, color: fileName ? "#2E7D32" : "#888" }}>
+              {fileName || "Click to attach PDF or Word document (max 4.5MB)"}
+            </span>
+          </label>
         </div>
 
         {status && status !== "success" && (
@@ -509,7 +533,7 @@ function SubmitOffer({ buyer }) {
       </div>
 
       <div style={{ padding: 16, background: "rgba(184,152,110,0.06)", border: "1px solid rgba(184,152,110,0.2)", borderRadius: 4, fontSize: 12, color: "#888", lineHeight: 1.6, textAlign: "center" }}>
-        Please email your LOI document to <strong>andresg@related-realty.com</strong>
+        Need assistance? Contact Andres Grossmann at (786) 213-5064 or andresg@related-realty.com
       </div>
     </div>
   );
@@ -1016,6 +1040,12 @@ function OffersLog() {
               </div>
               {o.notes && <div style={{ fontSize: 13, color: DARK, padding: "10px 0", borderTop: "1px solid #f0f0ec", marginBottom: 12 }}>{o.notes}</div>}
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                {o.fileUrl && (
+                  <a href={o.fileUrl} target="_blank" rel="noopener noreferrer"
+                    style={{ padding: "10px 24px", background: DARK, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: "pointer", textDecoration: "none", display: "inline-block" }}>
+                    {"\uD83D\uDCC4"} Download {o.fileName || "LOI"}
+                  </a>
+                )}
                 <button onClick={() => deleteOffer(o)}
                   style={{ padding: "10px 16px", background: "transparent", color: "#c0392b", border: "1px solid #c0392b", borderRadius: 3, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                   🗑 Delete
