@@ -1027,7 +1027,6 @@ function OffersLog() {
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {offers.map((o, i) => {
             const displayPrice = o.price && !String(o.price).startsWith("$") && !isNaN(o.price) ? "$" + Number(o.price).toLocaleString("en-US") : o.price;
-            const validFileUrl = o.fileUrl && String(o.fileUrl).startsWith("http");
             return (
             <div key={i} style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: 24, borderLeft: "3px solid " + ACCENT }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
@@ -1042,13 +1041,8 @@ function OffersLog() {
                 </div>
               </div>
               {o.notes && <div style={{ fontSize: 13, color: DARK, padding: "10px 0", borderTop: "1px solid #f0f0ec", marginBottom: 12 }}>{o.notes}</div>}
-              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                {validFileUrl && (
-                  <a href={o.fileUrl} target="_blank" rel="noopener noreferrer"
-                    style={{ padding: "10px 24px", background: DARK, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: "pointer", textDecoration: "none", display: "inline-block" }}>
-                    {"\uD83D\uDCC4"} Download {o.fileName || "LOI"}
-                  </a>
-                )}
+              <div style={{ display: "flex", gap: 8, alignItems: "center", justifyContent: "space-between" }}>
+                {o.fileName && <div style={{ fontSize: 12, color: "#888" }}>{"\uD83D\uDCCE"} {o.fileName} — sent to email</div>}
                 <button onClick={() => deleteOffer(o)}
                   style={{ padding: "10px 16px", background: "transparent", color: "#c0392b", border: "1px solid #c0392b", borderRadius: 3, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                   🗑 Delete
