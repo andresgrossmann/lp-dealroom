@@ -1025,7 +1025,10 @@ function OffersLog() {
       )}
       {offers.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {offers.map((o, i) => (
+          {offers.map((o, i) => {
+            const displayPrice = o.price && !String(o.price).startsWith("$") && !isNaN(o.price) ? "$" + Number(o.price).toLocaleString("en-US") : o.price;
+            const validFileUrl = o.fileUrl && String(o.fileUrl).startsWith("http");
+            return (
             <div key={i} style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: 24, borderLeft: "3px solid " + ACCENT }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                 <div>
@@ -1034,13 +1037,13 @@ function OffersLog() {
                   <div style={{ fontSize: 13, color: "#888" }}>{o.email}</div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: NAVY }}>{o.price}</div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: NAVY }}>{displayPrice}</div>
                   <div style={{ fontSize: 11, color: "#888" }}>{o.date}</div>
                 </div>
               </div>
               {o.notes && <div style={{ fontSize: 13, color: DARK, padding: "10px 0", borderTop: "1px solid #f0f0ec", marginBottom: 12 }}>{o.notes}</div>}
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                {o.fileUrl && (
+                {validFileUrl && (
                   <a href={o.fileUrl} target="_blank" rel="noopener noreferrer"
                     style={{ padding: "10px 24px", background: DARK, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: "pointer", textDecoration: "none", display: "inline-block" }}>
                     {"\uD83D\uDCC4"} Download {o.fileName || "LOI"}
@@ -1052,7 +1055,8 @@ function OffersLog() {
                 </button>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
       <div style={{ marginTop: 12, fontSize: 11, color: "#aaa", textAlign: "center" }}>{offers.length} offer(s) received</div>
