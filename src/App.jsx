@@ -515,13 +515,6 @@ function SubmitOffer({ buyer }) {
   );
 }
 
-      <div style={{ padding: 16, background: "rgba(200,169,81,0.06)", border: "1px solid rgba(200,169,81,0.2)", borderRadius: 4, fontSize: 12, color: "#888", lineHeight: 1.7, textAlign: "center" }}>
-        All offers are reviewed within 24 hours. For questions, contact Andres Grossmann at (786) 213-5064 or andresg@related-realty.com
-      </div>
-    </div>
-  );
-}
-
 function AIChat({ buyer }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
