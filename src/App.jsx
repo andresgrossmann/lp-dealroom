@@ -15,6 +15,7 @@ const BLUE = "#1c1c1c";
 const ACCENT = "#B8986E";
 const FONT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+const API_URL = "https://script.google.com/macros/s/AKfycbz8yNULiDcJxPX0AfXOi62D8mhP8kPB5I2Hx0v9_ocwK_61tU33_kTM-yqRcnayst40yw/exec";
 
 const DEAL = {
   price: 21500000,
@@ -84,9 +85,10 @@ function AccessGate({ onAccept }) {
     }
     // Log visitor
     try {
-      const key = "v:" + Date.now();
-      const val = JSON.stringify({ name, company, email, date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) });
-      localStorage.setItem(key, val);
+      fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "logVisitor", name, company, email, date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) }),
+      });
     } catch(e) {}
     onAccept({ name, company, email, broker: "" });
   };
@@ -429,38 +431,27 @@ function Scenarios() {
 function SubmitOffer({ buyer }) {
   const [price, setPrice] = useState("");
   const [notes, setNotes] = useState("");
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("");
   const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const handleFile = (e) => {
-    const f = e.target.files[0];
-    if (!f) return;
-    if (f.size > 4500000) { setStatus("File too large. Maximum 4.5MB."); return; }
-    setFileName(f.name);
-    const reader = new FileReader();
-    reader.onload = () => setFile(reader.result);
-    reader.readAsDataURL(f);
-  };
-
   const handleSubmit = async () => {
-    if (!file) { setStatus("Please attach your LOI document."); return; }
+    if (!price) { setStatus("Please enter an offer price."); return; }
     setSubmitting(true);
     setStatus("");
     try {
-      const key = "offer:" + Date.now();
-      const val = JSON.stringify({
-        name: buyer.name, company: buyer.company, email: buyer.email,
-        price: price || "Not specified", notes: notes || "",
-        fileName, file,
-        date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
+      await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "logOffer",
+          name: buyer.name, company: buyer.company, email: buyer.email,
+          price: price || "Not specified", notes: notes || "",
+          date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
+        }),
       });
-      localStorage.setItem(key, val);
       setStatus("success");
-      setFile(null); setFileName(""); setPrice(""); setNotes("");
+      setPrice(""); setNotes("");
     } catch(e) {
-      setStatus("Storage error. Please email your LOI to andresg@related-realty.com");
+      setStatus("Error submitting. Please email your offer to andresg@related-realty.com");
     }
     setSubmitting(false);
   };
@@ -471,9 +462,10 @@ function SubmitOffer({ buyer }) {
     return (
       <div style={{ maxWidth: 520, margin: "0 auto", textAlign: "center", padding: "40px 0" }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>{"\u2705"}</div>
-        <div style={{ fontSize: 22, color: NAVY, fontFamily: "'Cormorant Garamond', serif", fontWeight: 500, marginBottom: 12 }}>Offer Received</div>
+        <div style={{ fontSize: 22, color: NAVY, fontFamily: SERIF, fontWeight: 500, marginBottom: 12 }}>Offer Received</div>
         <p style={{ fontSize: 13, color: "#888", lineHeight: 1.7 }}>
-          Thank you, {buyer.name}. Your LOI has been submitted to the listing team.<br/>
+          Thank you, {buyer.name}. Your offer has been submitted to the listing team.<br/>
+          Please email your LOI document to <strong>andresg@related-realty.com</strong><br/>
           We will review and respond within 24 hours.
         </p>
         <div style={{ marginTop: 24, fontSize: 13, color: DARK }}>
@@ -487,7 +479,7 @@ function SubmitOffer({ buyer }) {
   return (
     <div style={{ maxWidth: 520, margin: "0 auto" }}>
       <h3 style={{ fontSize: 11, color: DARK, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 8 }}>Submit Your Offer</h3>
-      <p style={{ fontSize: 13, color: "#888", marginBottom: 24 }}>Upload your Letter of Intent directly to the listing team through this secure portal.</p>
+      <p style={{ fontSize: 13, color: "#888", marginBottom: 24 }}>Submit your offer details below. Please email your LOI document to andresg@related-realty.com</p>
 
       <div style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: 32, marginBottom: 16 }}>
         <div style={{ marginBottom: 20 }}>
@@ -497,24 +489,13 @@ function SubmitOffer({ buyer }) {
         </div>
 
         <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>OFFER PRICE (OPTIONAL)</div>
+          <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>OFFER PRICE *</div>
           <input type="text" placeholder="e.g. $20,000,000" value={price} onChange={e => { const num = e.target.value.replace(/[^0-9]/g, ""); setPrice(num ? "$" + parseInt(num).toLocaleString("en-US") : ""); }} style={inputStyle} />
         </div>
 
         <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>COMMENTS (OPTIONAL)</div>
-          <textarea rows={3} placeholder="Key terms, timing, conditions..." value={notes} onChange={e => setNotes(e.target.value)} style={{ ...inputStyle, resize: "vertical" }} />
-        </div>
-
-        <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>ATTACH LOI DOCUMENT *</div>
-          <label style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: 24, border: "2px dashed " + (fileName ? "#2E7D32" : "#e8e6e1"), borderRadius: 4, cursor: "pointer", background: fileName ? "rgba(46,125,50,0.04)" : "#fafaf7", transition: "all 0.2s" }}>
-            <input type="file" accept=".pdf,.doc,.docx" onChange={handleFile} style={{ display: "none" }} />
-            <span style={{ fontSize: 24 }}>{fileName ? "\u2705" : "\uD83D\uDCCE"}</span>
-            <span style={{ fontSize: 13, color: fileName ? "#2E7D32" : "#888" }}>
-              {fileName || "Click to attach PDF or Word document (max 4.5MB)"}
-            </span>
-          </label>
+          <div style={{ fontSize: 11, color: "#999", letterSpacing: 1, marginBottom: 6 }}>COMMENTS / KEY TERMS (OPTIONAL)</div>
+          <textarea rows={4} placeholder="Key terms, timing, conditions, contingencies..." value={notes} onChange={e => setNotes(e.target.value)} style={{ ...inputStyle, resize: "vertical" }} />
         </div>
 
         {status && status !== "success" && (
@@ -526,6 +507,13 @@ function SubmitOffer({ buyer }) {
           {submitting ? "Submitting..." : "Submit Offer"}
         </button>
       </div>
+
+      <div style={{ padding: 16, background: "rgba(184,152,110,0.06)", border: "1px solid rgba(184,152,110,0.2)", borderRadius: 4, fontSize: 12, color: "#888", lineHeight: 1.6, textAlign: "center" }}>
+        Please email your LOI document to <strong>andresg@related-realty.com</strong>
+      </div>
+    </div>
+  );
+}
 
       <div style={{ padding: 16, background: "rgba(200,169,81,0.06)", border: "1px solid rgba(200,169,81,0.2)", borderRadius: 4, fontSize: 12, color: "#888", lineHeight: 1.7, textAlign: "center" }}>
         All offers are reviewed within 24 hours. For questions, contact Andres Grossmann at (786) 213-5064 or andresg@related-realty.com
@@ -925,7 +913,7 @@ function Documents() {
   const FOLDER_URL = "https://drive.google.com/drive/folders/1JSCy6B9137GW30FtH0wUtKOrE73zwj6G?usp=sharing";
   const docs = [
     { name: "Offering Memorandum", desc: "Confidential OM with full financial analysis, market context, and comparable sales", icon: "\uD83D\uDCD8", url: "https://drive.google.com/file/d/1BuTFQRNxfJtBCBdeK4YgC9Qg7DiwGZiZ/view?usp=sharing" },
-    { name: "Pro Forma (2026\u20132027)", desc: "Detailed monthly P&L \u2014 Year 1 with Jan\u2013Feb actuals, Year 2 stabilized", icon: "\uD83D\uDCC8", url: "https://docs.google.com/spreadsheets/d/1wHNxjnKKaKaa6iof2sPLxs7JtbMkPnuRETSfu4P04xw/edit?usp=sharing" },
+    { name: "Pro Forma (2026\u20132027)", desc: "Detailed monthly P&L \u2014 Year 1 with Jan\u2013Feb actuals, Year 2 stabilized", icon: "\uD83D\uDCC8", url: "https://docs.google.com/spreadsheets/d/1k0UlWVM4wOrLmhEoqnalD74CGWkAPd7Apt_qzj7Ne4M/edit?usp=sharing" },
     { name: "Hotel Management Agreement", desc: "Fully executed HMA with Namron Hospitality \u2014 includes GOP guarantee provisions", icon: "\uD83D\uDCDD", url: "https://drive.google.com/file/d/1Nl603TdE5-t9LX2swiHVeyDJ1VwE-Ff2/view?usp=sharing" },
     { name: "Restaurant Lease Agreement", desc: "Bowls de Guadalupe \u2014 7-year term, $10\u201311K/mo minimum or 10% gross revenue", icon: "\uD83C\uDF7D\uFE0F", url: "https://drive.google.com/file/d/16iXnX4WeUeCEzx49KzncR9TAtkkCBQSy/view?usp=sharing" },
     { name: "Beach Resort Agreement", desc: "Joy Beachsports Management \u2014 5-year term with extension option", icon: "\uD83C\uDFD6\uFE0F", url: "https://drive.google.com/file/d/1tZlEm8_HlgaimuRL8Ke3IzmJzb1w2wHM/view?usp=drive_link" },
@@ -981,22 +969,14 @@ function OffersLog() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const loadOffers = () => {
+  const loadOffers = async () => {
     setLoading(true);
     setError("");
     try {
-      const all = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k && k.startsWith("offer:")) {
-          try {
-            const raw = localStorage.getItem(k);
-            if (raw) all.push({ ...JSON.parse(raw), _key: k });
-          } catch(e) {}
-        }
-      }
-      all.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-      setOffers(all);
+      const res = await fetch(API_URL + "?action=getOffers");
+      const data = await res.json();
+      data.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+      setOffers(data);
     } catch(e) {
       setError("Error loading offers.");
       setOffers([]);
@@ -1004,21 +984,12 @@ function OffersLog() {
     setLoading(false);
   };
 
-  const downloadFile = (offer) => {
-    try {
-      const link = document.createElement("a");
-      link.href = offer.file;
-      link.download = offer.fileName || "LOI.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch(e) {}
-  };
-
-  const deleteOffer = (offer) => {
+  const deleteOffer = async (offer) => {
     if (!window.confirm("Delete offer from " + (offer.name || "unknown") + "?")) return;
-    try { localStorage.removeItem(offer._key); } catch(e) {}
-    setOffers(prev => prev.filter(o => o._key !== offer._key));
+    try {
+      await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "deleteOffer", id: offer.id }) });
+    } catch(e) {}
+    setOffers(prev => prev.filter(o => o.id !== offer.id));
   };
 
   useEffect(() => { loadOffers(); }, []);
@@ -1052,10 +1023,6 @@ function OffersLog() {
               </div>
               {o.notes && <div style={{ fontSize: 13, color: DARK, padding: "10px 0", borderTop: "1px solid #f0f0ec", marginBottom: 12 }}>{o.notes}</div>}
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <button onClick={() => downloadFile(o)}
-                  style={{ padding: "10px 24px", background: DARK, color: "#fff", border: "none", borderRadius: 3, fontSize: 12, fontWeight: 600, letterSpacing: 1, cursor: "pointer" }}>
-                  {"\uD83D\uDCC4"} Download {o.fileName || "LOI"}
-                </button>
                 <button onClick={() => deleteOffer(o)}
                   style={{ padding: "10px 16px", background: "transparent", color: "#c0392b", border: "1px solid #c0392b", borderRadius: 3, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                   🗑 Delete
@@ -1075,22 +1042,14 @@ function VisitorLog() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const loadLog = () => {
+  const loadLog = async () => {
     setLoading(true);
     setError("");
     try {
-      const all = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k && k.startsWith("v:")) {
-          try {
-            const raw = localStorage.getItem(k);
-            if (raw) all.push({ ...JSON.parse(raw), _key: k });
-          } catch(e) {}
-        }
-      }
-      all.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-      setEntries(all);
+      const res = await fetch(API_URL + "?action=getVisitors");
+      const data = await res.json();
+      data.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+      setEntries(data);
     } catch(e) {
       setError("Error loading visitor log.");
       setEntries([]);
@@ -1098,10 +1057,12 @@ function VisitorLog() {
     setLoading(false);
   };
 
-  const deleteEntry = (entry) => {
+  const deleteEntry = async (entry) => {
     if (!window.confirm("Delete visitor " + (entry.name || "unknown") + "?")) return;
-    try { localStorage.removeItem(entry._key); } catch(e) {}
-    setEntries(prev => prev.filter(e => e._key !== entry._key));
+    try {
+      await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "deleteVisitor", id: entry.id }) });
+    } catch(e) {}
+    setEntries(prev => prev.filter(e => e.id !== entry.id));
   };
 
   useEffect(() => { loadLog(); }, []);
