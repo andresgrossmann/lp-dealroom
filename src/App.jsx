@@ -71,12 +71,13 @@ function AccessGate({ onAccept }) {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [code, setCode] = useState("");
+  const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [adminPin, setAdminPin] = useState("");
 
   const ACCESS_CODE = "LP4130";
-  const valid = name && company && email && role && code;
+  const valid = name && company && email && role && code && agreed;
 
   const handleEnter = () => {
     if (!valid) return;
@@ -143,9 +144,23 @@ function AccessGate({ onAccept }) {
             </div>
           )}
 
-          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 3, padding: 14, fontSize: 12, color: "rgba(255,255,255,0.4)", textAlign: "center", lineHeight: 1.6 }}>
-            Access requires a signed NDA and access code from the listing team.
+          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 3, padding: 16, fontSize: 10, color: "rgba(255,255,255,0.35)", lineHeight: 1.7, maxHeight: 140, overflowY: "auto" }}>
+            <strong style={{ color: "rgba(255,255,255,0.5)", letterSpacing: 1 }}>CONFIDENTIALITY & DISCLAIMER</strong><br/><br/>
+            This Deal Room and all materials contained herein are strictly confidential and intended solely for the use of the registered recipient. By accessing this portal, you acknowledge and agree to the following:<br/><br/>
+            (1) All information provided is confidential and proprietary. You agree not to disclose, distribute, copy, or share any materials, data, or information obtained through this portal with any third party without the prior written consent of the listing brokers.<br/><br/>
+            (2) The information contained herein has been obtained from sources believed to be reliable but has not been independently verified. Neither the listing brokers, Related Realty, nor the property owner make any representations or warranties, express or implied, as to the accuracy, completeness, or reliability of any information provided.<br/><br/>
+            (3) This portal does not constitute an offer to sell or a solicitation of an offer to buy any property or interest therein. No binding agreement shall exist unless and until a definitive purchase and sale agreement has been fully executed and delivered by all parties.<br/><br/>
+            (4) The listing brokers and Related Realty assume no liability for any direct, indirect, or consequential damages arising from the use of, or reliance upon, any information contained in this portal.<br/><br/>
+            (5) By proceeding, you confirm that you are a qualified prospective purchaser or authorized representative acting in good faith.
           </div>
+
+          <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
+            <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
+              style={{ marginTop: 2, width: 16, height: 16, accentColor: ACCENT, cursor: "pointer", flexShrink: 0 }} />
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>
+              I have read and agree to the Confidentiality & Disclaimer terms above. *
+            </span>
+          </label>
 
           <button onClick={handleEnter} disabled={!valid}
             style={{ marginTop: 4, padding: "14px 0", width: "100%", background: valid ? GOLD : "rgba(200,169,81,0.2)", color: valid ? NAVY : "rgba(255,255,255,0.3)", border: "none", borderRadius: 3, fontSize: 13, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", cursor: valid ? "pointer" : "default", transition: "all 0.3s" }}>
