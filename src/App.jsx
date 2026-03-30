@@ -89,7 +89,7 @@ function AccessGate({ onAccept }) {
     try {
       fetch(API_URL, {
         method: "POST",
-        body: JSON.stringify({ action: "logVisitor", name, company, email, role, date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) }),
+        body: JSON.stringify({ action: "logVisitor", name, company, email, role, disclaimerAccepted: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }), date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) }),
       });
     } catch(e) {}
     onAccept({ name, company, email, role, broker: "" });
@@ -144,21 +144,22 @@ function AccessGate({ onAccept }) {
             </div>
           )}
 
-          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 3, padding: 16, fontSize: 10, color: "rgba(255,255,255,0.35)", lineHeight: 1.7, maxHeight: 140, overflowY: "auto" }}>
-            <strong style={{ color: "rgba(255,255,255,0.5)", letterSpacing: 1 }}>CONFIDENTIALITY & DISCLAIMER</strong><br/><br/>
-            This Deal Room and all materials contained herein are strictly confidential and intended solely for the use of the registered recipient. By accessing this portal, you acknowledge and agree to the following:<br/><br/>
-            (1) All information provided is confidential and proprietary. You agree not to disclose, distribute, copy, or share any materials, data, or information obtained through this portal with any third party without the prior written consent of the listing brokers.<br/><br/>
-            (2) The information contained herein has been obtained from sources believed to be reliable but has not been independently verified. Neither the listing brokers, Related Realty, nor the property owner make any representations or warranties, express or implied, as to the accuracy, completeness, or reliability of any information provided.<br/><br/>
-            (3) This portal does not constitute an offer to sell or a solicitation of an offer to buy any property or interest therein. No binding agreement shall exist unless and until a definitive purchase and sale agreement has been fully executed and delivered by all parties.<br/><br/>
-            (4) The listing brokers and Related Realty assume no liability for any direct, indirect, or consequential damages arising from the use of, or reliance upon, any information contained in this portal.<br/><br/>
-            (5) By proceeding, you confirm that you are a qualified prospective purchaser or authorized representative acting in good faith.
+          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 3, padding: 16, fontSize: 10, color: "rgba(255,255,255,0.35)", lineHeight: 1.7, maxHeight: 180, overflowY: "auto" }}>
+            <strong style={{ color: "rgba(255,255,255,0.5)", letterSpacing: 1 }}>LE PARTICULIER — 4130 Collins Ave, Miami Beach, FL 33140</strong><br/><br/>
+            <strong style={{ color: "rgba(255,255,255,0.45)" }}>1. Confidentiality.</strong> Prospect and Prospect's Broker acknowledge that all information and materials provided by Related Realty regarding the above-referenced Property is confidential and may not be used for any purpose other than evaluation. Prospect's and Prospect's Broker's dissemination of any information and materials provided by Listing Broker will be limited to attorneys, accountants, banking representatives, and business advisors directly involved with the above-referenced Property. In the event the transaction is not successful, Prospect and Prospect's Broker will immediately return to Listing Broker any information and materials provided by Listing Broker.<br/><br/>
+            <strong style={{ color: "rgba(255,255,255,0.45)" }}>2. Non-Disclosure.</strong> Related Realty, Prospect, and Prospect's Broker agree not to disclose to any other person the fact that any discussions or negotiations are taking place with regard to the Property, the actual or potential terms, conditions, or facts involved in any such discussions or negotiations.<br/><br/>
+            <strong style={{ color: "rgba(255,255,255,0.45)" }}>3. Non-Circumvention.</strong> Prospect and Prospect's Broker agree not to contact the Property owner, landlord, tenants, employees, or customers except through Listing Broker. Prospect and Prospect's Broker further agree not to circumvent or interfere with Listing Broker's contract with owner/landlord in any way.<br/><br/>
+            <strong style={{ color: "rgba(255,255,255,0.45)" }}>4. Verification of Data.</strong> No representation is made by Related Realty as to the accuracy of the information and materials provided. Prospect and Prospect's Broker agree to thoroughly review and independently verify the information and materials provided. Related Realty advises Prospect and Prospect's Broker to consult appropriate professionals for legal, tax, environmental, and other specialized advice concerning matters affecting the Property and the transaction contemplated.<br/><br/>
+            <strong style={{ color: "rgba(255,255,255,0.45)" }}>5. Disputes.</strong> This agreement will be construed in accordance with the laws of the State of Florida. The Broker will be entitled to all remedies provided by law, including but not limited to injunctive relief and damages. In any litigation arising out of this agreement, the prevailing party will be entitled to recover from the non-prevailing party reasonable attorney's fees, costs, and expenses.<br/><br/>
+            <strong style={{ color: "rgba(255,255,255,0.45)" }}>6. Term.</strong> This agreement will terminate 1 Year after the conclusion of any discussions or negotiations regarding the above-referenced Property.<br/><br/>
+            <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 9 }}>2999 NE 191st Street Suite 510 | Aventura, FL 33180 | O 305.932.6365</span>
           </div>
 
           <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
             <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
               style={{ marginTop: 2, width: 16, height: 16, accentColor: ACCENT, cursor: "pointer", flexShrink: 0 }} />
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>
-              I have read and agree to the Confidentiality & Disclaimer terms above. *
+              I have read and agree to the Confidentiality, Non-Disclosure & Non-Circumvention terms above. *
             </span>
           </label>
 
