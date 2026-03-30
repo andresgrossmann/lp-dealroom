@@ -70,6 +70,9 @@ function AccessGate({ onAccept }) {
   const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
+  const [hasReferringBroker, setHasReferringBroker] = useState("");
+  const [refBrokerName, setRefBrokerName] = useState("");
+  const [refBrokerEmail, setRefBrokerEmail] = useState("");
   const [code, setCode] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
@@ -77,7 +80,7 @@ function AccessGate({ onAccept }) {
   const [adminPin, setAdminPin] = useState("");
 
   const ACCESS_CODE = "LP4130";
-  const valid = name && company && email && role && code && agreed;
+  const valid = name && company && email && role && hasReferringBroker && code && agreed && (hasReferringBroker === "No" || refBrokerName);
 
   const handleEnter = () => {
     if (!valid) return;
@@ -89,7 +92,7 @@ function AccessGate({ onAccept }) {
     try {
       fetch(API_URL, {
         method: "POST",
-        body: JSON.stringify({ action: "logVisitor", name, company, email, role, disclaimerAccepted: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }), date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) }),
+        body: JSON.stringify({ action: "logVisitor", name, company, email, role, hasReferringBroker, refBrokerName: refBrokerName || "", refBrokerEmail: refBrokerEmail || "", disclaimerAccepted: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }), date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) }),
       });
     } catch(e) {}
     onAccept({ name, company, email, role, broker: "" });
@@ -129,6 +132,30 @@ function AccessGate({ onAccept }) {
               ))}
             </div>
           </div>
+
+          <div>
+            <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>Were you referred by a broker? *</label>
+            <div style={{ display: "flex", gap: 10 }}>
+              {["Yes", "No"].map((opt) => (
+                <button key={opt} onClick={() => { setHasReferringBroker(opt); setError(""); }}
+                  style={{ flex: 1, padding: "12px 16px", background: hasReferringBroker === opt ? "rgba(184,152,110,0.15)" : "rgba(255,255,255,0.04)", border: hasReferringBroker === opt ? "1px solid " + ACCENT : "1px solid rgba(255,255,255,0.12)", color: hasReferringBroker === opt ? ACCENT : "rgba(255,255,255,0.5)", fontSize: 12, fontWeight: hasReferringBroker === opt ? 600 : 400, letterSpacing: 1, cursor: "pointer", fontFamily: FONT, transition: "all 0.3s" }}>
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {hasReferringBroker === "Yes" && (
+            <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", padding: 16, display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 2 }}>REFERRING BROKER DETAILS</div>
+              {[["Broker Name *", refBrokerName, setRefBrokerName], ["Broker Email", refBrokerEmail, setRefBrokerEmail]].map(([label, val, setter]) => (
+                <div key={label}>
+                  <label style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 1, display: "block", marginBottom: 4 }}>{label}</label>
+                  <input type="text" value={val} onChange={(e) => setter(e.target.value)} style={{ ...inputStyle, padding: "10px 14px", fontSize: 12 }} />
+                </div>
+              ))}
+            </div>
+          )}
 
           <div>
             <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>Access Code *</label>
@@ -1134,29 +1161,36 @@ function VisitorLog() {
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ background: DARK, color: "#fff" }}>
-                <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>NAME</th>
-                <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>COMPANY</th>
-                <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>EMAIL</th>
-                <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>ROLE</th>
-                <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, fontSize: 11, letterSpacing: 1 }}>DATE</th>
-                <th style={{ padding: "10px 8px", textAlign: "center", fontWeight: 600, fontSize: 11, letterSpacing: 1, width: 60 }}></th>
+                <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600, fontSize: 10, letterSpacing: 1 }}>NAME</th>
+                <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600, fontSize: 10, letterSpacing: 1 }}>COMPANY</th>
+                <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600, fontSize: 10, letterSpacing: 1 }}>EMAIL</th>
+                <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600, fontSize: 10, letterSpacing: 1 }}>ROLE</th>
+                <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600, fontSize: 10, letterSpacing: 1 }}>REFERRED BY</th>
+                <th style={{ padding: "10px 14px", textAlign: "center", fontWeight: 600, fontSize: 10, letterSpacing: 1 }}>VISITS</th>
+                <th style={{ padding: "10px 14px", textAlign: "left", fontWeight: 600, fontSize: 10, letterSpacing: 1 }}>DATE</th>
+                <th style={{ padding: "10px 8px", textAlign: "center", fontWeight: 600, fontSize: 10, letterSpacing: 1, width: 40 }}></th>
               </tr>
             </thead>
             <tbody>
-              {entries.map((e, i) => (
+              {entries.map((e, i) => {
+                const v = parseInt(e.visits) || 1;
+                return (
                 <tr key={i} style={{ borderBottom: "1px solid #f0f0ec" }}>
-                  <td style={{ padding: "10px 16px", fontWeight: 600, color: NAVY }}>{e.name}</td>
-                  <td style={{ padding: "10px 16px", color: DARK }}>{e.company}</td>
-                  <td style={{ padding: "10px 16px", color: DARK }}>{e.email}</td>
-                  <td style={{ padding: "10px 16px" }}><span style={{ padding: "3px 10px", borderRadius: 3, fontSize: 11, fontWeight: 600, letterSpacing: 1, background: e.role === "Broker" ? "rgba(184,152,110,0.12)" : "rgba(46,125,50,0.1)", color: e.role === "Broker" ? ACCENT : "#2E7D32" }}>{e.role || "—"}</span></td>
-                  <td style={{ padding: "10px 16px", color: "#888", fontSize: 12 }}>{e.date}</td>
+                  <td style={{ padding: "10px 14px", fontWeight: 600, color: NAVY }}>{e.name}</td>
+                  <td style={{ padding: "10px 14px", color: DARK, fontSize: 12 }}>{e.company}</td>
+                  <td style={{ padding: "10px 14px", color: DARK, fontSize: 12 }}>{e.email}</td>
+                  <td style={{ padding: "10px 14px" }}><span style={{ padding: "3px 8px", borderRadius: 3, fontSize: 10, fontWeight: 600, letterSpacing: 1, background: e.role === "Broker" ? "rgba(184,152,110,0.12)" : "rgba(46,125,50,0.1)", color: e.role === "Broker" ? ACCENT : "#2E7D32" }}>{e.role || "—"}</span></td>
+                  <td style={{ padding: "10px 14px", color: DARK, fontSize: 12 }}>{e.referredByBroker === "Yes" ? e.refBrokerName : <span style={{ color: "#888" }}>Direct</span>}</td>
+                  <td style={{ padding: "10px 14px", textAlign: "center" }}><span style={{ padding: "3px 10px", borderRadius: 3, fontSize: 11, fontWeight: 700, background: v > 1 ? "rgba(184,152,110,0.15)" : "transparent", color: v > 1 ? ACCENT : "#888" }}>{v}</span></td>
+                  <td style={{ padding: "10px 14px", color: "#888", fontSize: 11 }}>{e.date}</td>
                   <td style={{ padding: "10px 8px", textAlign: "center" }}>
                     <button onClick={() => deleteEntry(e)}
                       style={{ background: "transparent", border: "none", color: "#c0392b", cursor: "pointer", fontSize: 14, padding: 4 }}
                       title="Delete visitor">🗑</button>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
