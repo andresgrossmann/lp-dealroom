@@ -66,13 +66,16 @@ const GALLERY_IMAGES = [
 
 function AccessGate({ onAccept }) {
   const mobile = useIsMobile();
-  const [name, setName] = useState("");
-  const [company, setCompany] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
-  const [hasReferringBroker, setHasReferringBroker] = useState("");
-  const [refBrokerName, setRefBrokerName] = useState("");
-  const [refBrokerEmail, setRefBrokerEmail] = useState("");
+  const saved = (() => { try { return JSON.parse(localStorage.getItem("lp_user") || "{}"); } catch(e) { return {}; } })();
+  const [name, setName] = useState(saved.name || "");
+  const [company, setCompany] = useState(saved.company || "");
+  const [email, setEmail] = useState(saved.email || "");
+  const [role, setRole] = useState(saved.role || "");
+  const [hasReferringBroker, setHasReferringBroker] = useState(saved.hasReferringBroker || "");
+  const [refBrokerName, setRefBrokerName] = useState(saved.refBrokerName || "");
+  const [refBrokerEmail, setRefBrokerEmail] = useState(saved.refBrokerEmail || "");
+  const [rememberMe, setRememberMe] = useState(!!saved.name);
+  const [signatureName, setSignatureName] = useState("");
   const [code, setCode] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
@@ -80,7 +83,7 @@ function AccessGate({ onAccept }) {
   const [adminPin, setAdminPin] = useState("");
 
   const ACCESS_CODE = "LP4130";
-  const valid = name && company && email && role && hasReferringBroker && code && agreed && (hasReferringBroker === "No" || refBrokerName);
+  const valid = name && company && email && role && hasReferringBroker && code && agreed && signatureName && signatureName.trim().toLowerCase() === name.trim().toLowerCase() && (hasReferringBroker === "No" || refBrokerName);
 
   const handleEnter = () => {
     if (!valid) return;
@@ -88,11 +91,27 @@ function AccessGate({ onAccept }) {
       setError("Invalid access code. Please contact the listing team.");
       return;
     }
+    // Save or clear remember me
+    try {
+      if (rememberMe) {
+        localStorage.setItem("lp_user", JSON.stringify({ name, company, email, role, hasReferringBroker, refBrokerName, refBrokerEmail }));
+      } else {
+        localStorage.removeItem("lp_user");
+      }
+    } catch(e) {}
     // Log visitor
     try {
       fetch(API_URL, {
         method: "POST",
-        body: JSON.stringify({ action: "logVisitor", name, company, email, role, hasReferringBroker, refBrokerName: refBrokerName || "", refBrokerEmail: refBrokerEmail || "", disclaimerAccepted: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }), date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }) }),
+        body: JSON.stringify({
+          action: "logVisitor", name, company, email, role, hasReferringBroker,
+          refBrokerName: refBrokerName || "", refBrokerEmail: refBrokerEmail || "",
+          eSignature: signatureName,
+          ndaVersion: "NDA v1.0",
+          disclaimerAccepted: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
+          browser: navigator.userAgent || "",
+          date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
+        }),
       });
     } catch(e) {}
     onAccept({ name, company, email, role, broker: "" });
@@ -185,8 +204,34 @@ function AccessGate({ onAccept }) {
           <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
             <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
               style={{ marginTop: 2, width: 16, height: 16, accentColor: ACCENT, cursor: "pointer", flexShrink: 0 }} />
-            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>
-              I have read and agree to the Confidentiality, Non-Disclosure & Non-Circumvention terms above. *
+            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>
+              By checking this box, I acknowledge that I have read, understand, and agree to be bound by the Confidentiality, Non-Disclosure & Non-Circumvention terms set forth above. I consent to conduct this transaction electronically pursuant to the Florida Electronic Signature Act (Fla. Stat. §668.50) and the federal E-SIGN Act. *
+            </span>
+          </label>
+
+          {agreed && (
+            <div style={{ background: "rgba(184,152,110,0.06)", border: "1px solid rgba(184,152,110,0.15)", padding: 16 }}>
+              <div style={{ fontSize: 9, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 8 }}>ELECTRONIC SIGNATURE</div>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 10, lineHeight: 1.5 }}>
+                Type your full name below exactly as entered above to serve as your legally binding electronic signature.
+              </div>
+              <input type="text" value={signatureName} onChange={(e) => setSignatureName(e.target.value)}
+                placeholder="Type your full name here"
+                style={{ ...inputStyle, fontStyle: "italic", fontSize: 15, textAlign: "center", borderColor: signatureName && signatureName.trim().toLowerCase() === name.trim().toLowerCase() ? "rgba(184,152,110,0.5)" : "rgba(255,255,255,0.12)" }} />
+              {signatureName && signatureName.trim().toLowerCase() !== name.trim().toLowerCase() && (
+                <div style={{ fontSize: 9, color: "#ff6b6b", marginTop: 6, textAlign: "center" }}>Name must match exactly: {name}</div>
+              )}
+              {signatureName && signatureName.trim().toLowerCase() === name.trim().toLowerCase() && (
+                <div style={{ fontSize: 9, color: ACCENT, marginTop: 6, textAlign: "center" }}>✓ Electronic signature accepted</div>
+              )}
+            </div>
+          )}
+
+          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+            <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)}
+              style={{ width: 14, height: 14, accentColor: ACCENT, cursor: "pointer" }} />
+            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)" }}>
+              Remember my information for future visits
             </span>
           </label>
 
@@ -272,7 +317,7 @@ function Overview() {
     <div>
       <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr 1fr" : "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginBottom: 24 }}>
         <MetricCard label="Offering Price" value="$21.5M" sub="$398,148 / key" accent={GOLD} />
-        <MetricCard label="Year 1 NOI" value="$1.91M" sub="8.9% Cap Rate" />
+        <MetricCard label="Year 1 NOI" value="$1.91M" sub="8.9% Stabilized Cap" />
         <MetricCard label="Year 2 NOI" value="$2.07M" sub="9.6% Stabilized Cap" />
         <MetricCard label="GOP Guarantee" value="$850K/yr" sub="Personal Guarantee" accent="#2E7D32" />
       </div>
@@ -365,7 +410,7 @@ function Financials() {
           headers={["Metric", "$21,500,000", "$20,000,000", "$19,500,000"]}
           rows={[
             ["Price Per Key", "$398,148", "$370,370", "$361,111"],
-            ["Year 1 Cap Rate", "8.9%", "9.6%", "9.8%"],
+            ["Stabilized Cap Rate", "8.9%", "9.6%", "9.8%"],
             ["Year 2 Cap Rate (Stabilized)", "9.6%", "10.3%", "10.6%"],
             ["Year 5 Cap Rate", "11.3%", "12.1%", "12.5%"],
             ["Min. GOP Guarantee", "$850,000/yr", "$850,000/yr", "$850,000/yr"],
@@ -603,7 +648,7 @@ function AIChat({ buyer }) {
 
   const KB = [
     { keys: ["price", "asking", "cost", "how much"], answer: "The offering price is $21,500,000, which equates to $398,148 per key across 54 rooms. The seller has indicated flexibility for the right buyer with a clean, timely close. At various price points: at $21.5M the Year 2 stabilized cap is 9.6%; at $19.5M it's 10.6%; at $18.5M it's 11.2%." },
-    { keys: ["cap rate", "cap", "yield", "return"], answer: "Year 1 NOI of $1,912,988 produces an 8.9% going-in cap rate at the $21.5M asking price. Year 2 stabilized NOI of $2,067,612 delivers a 9.6% cap. By Year 5, NOI reaches $2,428,635 for an 11.3% cap. All management fees (base + incentive) are already included in these figures. For context, Newmark reports 6.5%–8.5% OAR for upscale/luxury hotels in Miami as of Q1 2025." },
+    { keys: ["cap rate", "cap", "yield", "return"], answer: "Year 1 NOI of $1,912,988 produces an 8.9% stabilized cap rate at the $21.5M asking price. Year 2 stabilized NOI of $2,067,612 delivers a 9.6% cap. By Year 5, NOI reaches $2,428,635 for an 11.3% cap. All management fees (base + incentive) are already included in these figures. For context, Newmark reports 6.5%–8.5% OAR for upscale/luxury hotels in Miami as of Q1 2025." },
     { keys: ["noi", "net operating", "income", "cash flow"], answer: "Year 1 NOI: $1,912,988 (35.7% margin). Year 2 Stabilized NOI: $2,067,612 (35.7% margin). Year 3 NOI: $2,182,417 (36.1%). Year 5 NOI: $2,428,635 (36.8%). All figures include base management fee (4%) plus incentive fee. NOI less 2% replacement reserves: $1,805,908 (Y1), $1,951,663 (Y2), $2,296,788 (Y5)." },
     { keys: ["revenue", "total revenue", "top line"], answer: "Year 1 Total Revenue: $5,353,962. Year 2: $5,797,442. Year 3: $6,051,049. Year 5: $6,592,332. Revenue sources include room revenue ($4.42M Y1), restaurant income ($186K Y1), other F&B ($300K Y1), and other income including beach club, resort fees, and ancillary charges ($449K Y1)." },
     { keys: ["gop", "gross operating", "operating profit"], answer: "Year 1 GOP: $2,855,090 (53.3% margin). Year 2: $3,060,531 (52.8%). Year 5: $3,541,627 (53.7%). The operator has personally guaranteed a minimum GOP of $850,000 per year — if the hotel doesn't reach that threshold, the operator funds the difference out of pocket." },
@@ -639,7 +684,7 @@ function AIChat({ buyer }) {
     { keys: ["hello", "hi", "hey", "good morning", "good afternoon"], answer: `Hello! Welcome to the Le Particulier investment portal. I'm here to help answer any questions about the property, financials, contracts, market data, or the offering process. What would you like to know?` },
     { keys: ["thank", "thanks", "gracias"], answer: "You're welcome! If you have any additional questions, feel free to ask anytime. When you're ready to discuss further or schedule a tour, Andres Grossmann is available at (786) 213-5064 and Tomas Sulichin at (305) 788-2878." },
     { keys: ["tell me", "about this", "overview", "summary", "what else", "more info", "more about", "describe", "general", "what is this"], answer: "Le Particulier is a 54-key upscale boutique hotel at 4130 Collins Avenue, Miami Beach — three blocks from Soho Beach House — that completed a comprehensive renovation in November 2025. It's offered at $21,500,000 ($398,148/key) with Year 1 NOI of $1.91M (8.9% cap) growing to $2.07M stabilized (9.6% cap). Three things make this deal stand out: (1) the operator personally guarantees $850,000 minimum GOP annually, (2) the restaurant generates $120K+/year at 100% margin to the owner, and (3) at $398K/key you're buying below replacement cost ($424K–$635K to build comparable). The management agreement is assignable and terminable without penalty after April 2027, giving full brand optionality. The hotel is currently running ~90% occupancy on available rooms as of March 2026." },
-    { keys: ["good deal", "worth it", "should i", "invest", "opportunity", "attractive", "why buy", "why should", "compelling", "pros"], answer: "Here's why institutional buyers are looking at this seriously: An 8.9% going-in cap rate on a newly renovated boutique hotel in Miami Beach exceeds the 6.5–8.5% range Newmark reports for upscale/luxury hotels in this market. You're buying at $398K/key — 6% to 37% below replacement cost. The operator guarantees $850K minimum GOP personally. The restaurant pays the owner $120K+/year with zero expenses. Miami led all Top 25 U.S. markets in hotel occupancy in Q1 2025 at 84.7%. And after April 2027, you can terminate the management agreement and rebrand without penalty. The downside protection (GOP guarantee + below replacement cost) combined with the upside optionality (brand conversion potential + unmodeled beach club revenue) makes a compelling risk-adjusted case." },
+    { keys: ["good deal", "worth it", "should i", "invest", "opportunity", "attractive", "why buy", "why should", "compelling", "pros"], answer: "Here's why institutional buyers are looking at this seriously: An 8.9% stabilized cap rate on a newly renovated boutique hotel in Miami Beach exceeds the 6.5–8.5% range Newmark reports for upscale/luxury hotels in this market. You're buying at $398K/key — 6% to 37% below replacement cost. The operator guarantees $850K minimum GOP personally. The restaurant pays the owner $120K+/year with zero expenses. Miami led all Top 25 U.S. markets in hotel occupancy in Q1 2025 at 84.7%. And after April 2027, you can terminate the management agreement and rebrand without penalty. The downside protection (GOP guarantee + below replacement cost) combined with the upside optionality (brand conversion potential + unmodeled beach club revenue) makes a compelling risk-adjusted case." },
     { keys: ["risk", "downside", "concern", "worry", "negative", "cons", "red flag", "problem", "issue", "weakness"], answer: "The key considerations a buyer should evaluate: (1) No trailing financials — the renovation completed November 2025, so the pro forma is based on 2 months of actuals plus projections. Mitigant: the $850K GOP guarantee provides a contractual floor. (2) ADR growth of 4%/year is aggressive vs. CBRE's 0.6% market projection — though defensible for Years 1-2 as renovation rate capture. (3) Property tax reassessment at purchase price could increase taxes from $153K to ~$387K — even so, the stabilized cap still exceeds 8.5%. (4) No on-site parking — standard for Mid-Beach boutiques, including Soho House 3 blocks away. (5) The Le Particulier brand is owned by the operator, not the property — though the buyer has full optionality to maintain or rebrand after April 2027." },
     { keys: ["upside", "value add", "potential", "improve", "opportunity", "growth", "additional"], answer: "Several sources of unmodeled upside: (1) Restaurant income — currently modeled at $10K/month but David Shapiro indicated likely $20K/month once F&B is fully licensed, which would add ~$120K/year. (2) Beach club monetization — currently included in room rates but will be priced separately, creating additional ancillary revenue. (3) Brand conversion — affiliating with Marriott Autograph, Hilton Curio, or similar soft brand could drive a 15-25% RevPAR lift, pushing stabilized NOI to $2.4M-$2.7M (11-12%+ cap on cost). (4) OTA distribution optimization — the pro forma assumes high OTA dependency in Year 1 that decreases over time, improving net revenue per room. (5) Rate optimization — starting ADR of $295 vs. $288 submarket average leaves significant headroom for a renovated upscale product." },
     { keys: ["who", "namron", "yves", "operator", "management company", "manager background"], answer: "The hotel is managed by Namron Hospitality, led by Yves Naman. Namron operates a portfolio of boutique hotels across Mexico and the U.S. under brands including La Valise (Tulum, Mexico City, San Miguel de Allende, Mazunte, Los Cabos), Nest (Tulum, Baja), Encantada (Tulum), The William (NYC), and Maison Felix (Miami). Le Particulier Miami is their latest property. The management agreement is fully assignable to a new buyer with continuity of brand and operations." },
@@ -686,7 +731,7 @@ PROPERTY: 54 keys, 7 stories, reinforced concrete, 21,553 SF on 5,000 SF lot (~5
 PRICING: Asking $21,500,000 ($398,148/key).
 
 FINANCIALS (Pro Forma, all management fees included):
-- Year 1: Revenue $5.35M, GOP $2.86M (53.3%), NOI $1.91M (35.7%), Cap 8.9% at asking
+- Year 1: Revenue $5.35M, GOP $2.86M (53.3%), NOI $1.91M (35.7%), Stabilized Cap 8.9% at asking
 - Year 2 (Stabilized): Revenue $5.80M, GOP $3.06M (52.8%), NOI $2.07M (35.7%), Cap 9.6%
 - Year 5: Revenue $6.59M, GOP $3.54M (53.7%), NOI $2.43M (36.8%), Cap 11.3%
 - Occupancy: 76% Y1, 80% Y2, 80.6% Y5
