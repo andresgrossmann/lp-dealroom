@@ -1030,7 +1030,7 @@ function Documents() {
   const [copied, setCopied] = useState("");
   const FOLDER_URL = "https://drive.google.com/drive/folders/1JSCy6B9137GW30FtH0wUtKOrE73zwj6G?usp=sharing";
   const docs = [
-    { name: "Offering Memorandum", desc: "Confidential OM with full financial analysis, market context, and comparable sales", icon: "\uD83D\uDCD8", url: "https://drive.google.com/file/d/1BuTFQRNxfJtBCBdeK4YgC9Qg7DiwGZiZ/view?usp=sharing" },
+    { name: "Offering Memorandum", desc: "Confidential OM with full financial analysis, market context, and comparable sales", icon: "\uD83D\uDCD8", url: "https://drive.google.com/file/d/1N3DC_CzTokCq6H8LMb8OJxdQgfyqHFm1/view?usp=sharing" },
     { name: "Pro Forma (2026\u20132027)", desc: "Detailed monthly P&L \u2014 Year 1 with Jan\u2013Feb actuals, Year 2 stabilized", icon: "\uD83D\uDCC8", url: "https://docs.google.com/spreadsheets/d/1rMc_1vGS6f5IPsPQKPrNG4VXGO4oeLvm/edit?usp=sharing&ouid=113699395715492196821&rtpof=true&sd=true" },
     { name: "Hotel Management Agreement", desc: "Fully executed HMA with Namron Hospitality \u2014 includes GOP guarantee provisions", icon: "\uD83D\uDCDD", url: "https://drive.google.com/file/d/1Nl603TdE5-t9LX2swiHVeyDJ1VwE-Ff2/view?usp=sharing" },
     { name: "Restaurant Lease Agreement", desc: "Bowls de Guadalupe \u2014 7-year term, $10\u201311K/mo minimum or 10% gross revenue", icon: "\uD83C\uDF7D\uFE0F", url: "https://drive.google.com/file/d/16iXnX4WeUeCEzx49KzncR9TAtkkCBQSy/view?usp=sharing" },
