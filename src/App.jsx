@@ -177,10 +177,10 @@ function AccessGate({ onAccept }) {
           )}
 
           <div>
-            <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>Access Code *</label>
+            <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>Provided by Listing Broker *</label>
             <input type="text" value={code} onChange={(e) => { setCode(e.target.value); setError(""); }}
               onKeyDown={(e) => { if (e.key === "Enter") handleEnter(); }}
-              placeholder="Provided by listing broker"
+              placeholder="Access Code"
               style={{ ...inputStyle, letterSpacing: 4, textTransform: "uppercase", textAlign: "center", fontSize: 16 }} />
           </div>
 
