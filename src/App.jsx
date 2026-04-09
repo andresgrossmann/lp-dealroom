@@ -79,6 +79,21 @@ function AccessGate({ onAccept }) {
 
   const valid = email && name && company && agreed && signatureName && signatureName.trim().toLowerCase() === name.trim().toLowerCase();
 
+  // Track page view on load (before any form interaction)
+  useEffect(() => {
+    try {
+      fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "logPageView",
+          timestamp: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
+          referrer: document.referrer || "direct",
+          browser: navigator.userAgent || ""
+        }),
+      });
+    } catch(e) {}
+  }, []);
+
   const handleEnter = () => {
     if (!valid) return;
     // Save or clear remember me
