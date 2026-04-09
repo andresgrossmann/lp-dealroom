@@ -67,34 +67,24 @@ const GALLERY_IMAGES = [
 function AccessGate({ onAccept }) {
   const mobile = useIsMobile();
   const saved = (() => { try { return JSON.parse(localStorage.getItem("lp_user") || "{}"); } catch(e) { return {}; } })();
+  const [email, setEmail] = useState(saved.email || "");
   const [name, setName] = useState(saved.name || "");
   const [company, setCompany] = useState(saved.company || "");
-  const [email, setEmail] = useState(saved.email || "");
-  const [role, setRole] = useState(saved.role || "");
-  const [hasReferringBroker, setHasReferringBroker] = useState(saved.hasReferringBroker || "");
-  const [refBrokerName, setRefBrokerName] = useState(saved.refBrokerName || "");
-  const [refBrokerEmail, setRefBrokerEmail] = useState(saved.refBrokerEmail || "");
   const [rememberMe, setRememberMe] = useState(!!saved.name);
   const [signatureName, setSignatureName] = useState("");
-  const [code, setCode] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [adminPin, setAdminPin] = useState("");
 
-  const ACCESS_CODE = "LP4130";
-  const valid = name && company && email && role && hasReferringBroker && code && agreed && signatureName && signatureName.trim().toLowerCase() === name.trim().toLowerCase() && (hasReferringBroker === "No" || refBrokerName);
+  const valid = email && name && company && agreed && signatureName && signatureName.trim().toLowerCase() === name.trim().toLowerCase();
 
   const handleEnter = () => {
     if (!valid) return;
-    if (code.toUpperCase() !== ACCESS_CODE) {
-      setError("Invalid access code. Please contact the listing team.");
-      return;
-    }
     // Save or clear remember me
     try {
       if (rememberMe) {
-        localStorage.setItem("lp_user", JSON.stringify({ name, company, email, role, hasReferringBroker, refBrokerName, refBrokerEmail }));
+        localStorage.setItem("lp_user", JSON.stringify({ name, company, email }));
       } else {
         localStorage.removeItem("lp_user");
       }
@@ -104,8 +94,8 @@ function AccessGate({ onAccept }) {
       fetch(API_URL, {
         method: "POST",
         body: JSON.stringify({
-          action: "logVisitor", name, company, email, role, hasReferringBroker,
-          refBrokerName: refBrokerName || "", refBrokerEmail: refBrokerEmail || "",
+          action: "logVisitor", name, company, email, role: "", hasReferringBroker: "",
+          refBrokerName: "", refBrokerEmail: "",
           eSignature: signatureName,
           ndaVersion: "NDA v1.0",
           disclaimerAccepted: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
@@ -114,7 +104,7 @@ function AccessGate({ onAccept }) {
         }),
       });
     } catch(e) {}
-    onAccept({ name, company, email, role, broker: "" });
+    onAccept({ name, company, email, role: "", broker: "" });
   };
 
   const inputStyle = { width: "100%", padding: "14px 16px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 0, color: "#fff", fontSize: 13, outline: "none", fontFamily: FONT, boxSizing: "border-box", letterSpacing: 0.5, transition: "border-color 0.3s", };
@@ -133,56 +123,12 @@ function AccessGate({ onAccept }) {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {[["Full Name *", name, setName, "text"], ["Company / Entity *", company, setCompany, "text"], ["Email *", email, setEmail, "email"]].map(([label, val, setter, type]) => (
+          {[["Email *", email, setEmail, "email"], ["Full Name *", name, setName, "text"], ["Company / Entity *", company, setCompany, "text"]].map(([label, val, setter, type]) => (
             <div key={label}>
               <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>{label}</label>
               <input type={type} value={val} onChange={(e) => { setter(e.target.value); setError(""); }} style={inputStyle} />
             </div>
           ))}
-
-          <div>
-            <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>I am a... *</label>
-            <div style={{ display: "flex", gap: 10 }}>
-              {["Broker", "Principal / Direct Buyer"].map((r) => (
-                <button key={r} onClick={() => { setRole(r); setError(""); }}
-                  style={{ flex: 1, padding: "12px 16px", background: role === r ? "rgba(184,152,110,0.15)" : "rgba(255,255,255,0.04)", border: role === r ? "1px solid " + ACCENT : "1px solid rgba(255,255,255,0.12)", color: role === r ? ACCENT : "rgba(255,255,255,0.5)", fontSize: 12, fontWeight: role === r ? 600 : 400, letterSpacing: 1, cursor: "pointer", fontFamily: FONT, transition: "all 0.3s" }}>
-                  {r}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>Were you referred by a broker? *</label>
-            <div style={{ display: "flex", gap: 10 }}>
-              {["Yes", "No"].map((opt) => (
-                <button key={opt} onClick={() => { setHasReferringBroker(opt); setError(""); }}
-                  style={{ flex: 1, padding: "12px 16px", background: hasReferringBroker === opt ? "rgba(184,152,110,0.15)" : "rgba(255,255,255,0.04)", border: hasReferringBroker === opt ? "1px solid " + ACCENT : "1px solid rgba(255,255,255,0.12)", color: hasReferringBroker === opt ? ACCENT : "rgba(255,255,255,0.5)", fontSize: 12, fontWeight: hasReferringBroker === opt ? 600 : 400, letterSpacing: 1, cursor: "pointer", fontFamily: FONT, transition: "all 0.3s" }}>
-                  {opt}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {hasReferringBroker === "Yes" && (
-            <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", padding: 16, display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 2 }}>REFERRING BROKER DETAILS</div>
-              {[["Broker Name *", refBrokerName, setRefBrokerName], ["Broker Email", refBrokerEmail, setRefBrokerEmail]].map(([label, val, setter]) => (
-                <div key={label}>
-                  <label style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 1, display: "block", marginBottom: 4 }}>{label}</label>
-                  <input type="text" value={val} onChange={(e) => setter(e.target.value)} style={{ ...inputStyle, padding: "10px 14px", fontSize: 12 }} />
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div>
-            <label style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", display: "block", marginBottom: 6 }}>Provided by Listing Broker *</label>
-            <input type="text" value={code} onChange={(e) => { setCode(e.target.value); setError(""); }}
-              onKeyDown={(e) => { if (e.key === "Enter") handleEnter(); }}
-              placeholder="Access Code"
-              style={{ ...inputStyle, letterSpacing: 4, textTransform: "uppercase", textAlign: "center", fontSize: 16 }} />
-          </div>
 
           {error && (
             <div style={{ padding: 12, background: "rgba(198,40,40,0.12)", border: "1px solid rgba(198,40,40,0.3)", borderRadius: 3, textAlign: "center" }}>
