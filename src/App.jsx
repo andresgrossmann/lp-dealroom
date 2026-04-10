@@ -7,14 +7,15 @@ function useIsMobile(breakpoint = 768) {
 }
 
 // ── RELATED REALTY BRAND PALETTE ──
-const NAVY = "#1c1c1c";
-const GOLD = "#B8986E";
-const DARK = "#1c1c1c";
-const LIGHT = "#FAFAF8";
-const BLUE = "#1c1c1c";
-const ACCENT = "#B8986E";
+const NAVY = "#193A67";
+const GOLD = "#C5A572";
+const DARK = "#0F2340";
+const LIGHT = "#F0F0E9";
+const SLATE = "#E7E7E0";
+const BLUE = "#193A67";
+const ACCENT = "#C5A572";
 const FONT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
-const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+const SERIF = "'Playfair Display', Georgia, 'Times New Roman', serif";
 const API_URL = "https://script.google.com/macros/s/AKfycbx61QIXHXyyS_R_-_qoSFKSDXpoTlrtpaEcXt9GIOf_OlyNiIQuhc5DZoFZIkF1H6QOug/exec";
 
 const DEAL = {
@@ -126,16 +127,46 @@ function AccessGate({ onAccept }) {
 
   return (
     <div style={{ minHeight: "100vh", background: DARK, display: "flex", alignItems: "center", justifyContent: "center", padding: mobile ? 12 : 20, position: "relative", overflow: "hidden", fontFamily: FONT }}>
-      <div style={{ maxWidth: 520, width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(184,152,110,0.2)", borderRadius: 0, padding: mobile ? "28px 16px" : 56, position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: 580, width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(184,152,110,0.2)", borderRadius: 0, position: "relative", zIndex: 1, overflow: "hidden" }}>
 
-        <div style={{ textAlign: "center", marginBottom: mobile ? 20 : 36 }}>
-          <img src="/images/Related Logo.jpeg" alt="" style={{ height: 28, opacity: 0.7, marginBottom: 20, filter: "invert(1)", mixBlendMode: "screen" }} />
-          <div style={{ letterSpacing: mobile ? 4 : 8, fontSize: mobile ? 10 : 11, color: ACCENT, marginBottom: 12, fontWeight: 400 }}>EXCLUSIVE OFFERING</div>
-          <div style={{ fontSize: mobile ? 28 : 40, fontWeight: 300, color: "#fff", letterSpacing: mobile ? 3 : 6, fontFamily: SERIF }}>LE PARTICULIER</div>
-          <div style={{ fontSize: mobile ? 10 : 12, color: "rgba(255,255,255,0.35)", marginTop: 10, letterSpacing: mobile ? 2 : 3, fontWeight: 300 }}>4130 COLLINS AVENUE · MIAMI BEACH</div>
-          <div style={{ width: 40, height: 1, background: ACCENT, margin: "24px auto" }} />
-          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", letterSpacing: 4, textTransform: "uppercase", fontWeight: 300 }}>Confidential Investment Portal</div>
+        {/* HERO IMAGE */}
+        <div style={{ position: "relative", width: "100%", height: mobile ? 200 : 260, overflow: "hidden" }}>
+          <img src="/images/OTAsLeParticulier-1.jpg" alt="Le Particulier" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", filter: "brightness(0.7)" }} />
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: mobile ? "16px 16px 12px" : "24px 32px 16px", background: "linear-gradient(transparent, rgba(0,0,0,0.85))" }}>
+            <img src="/images/Related Logo.jpeg" alt="" style={{ height: 22, opacity: 0.7, marginBottom: 12, filter: "invert(1)", mixBlendMode: "screen" }} />
+            <div style={{ letterSpacing: mobile ? 4 : 6, fontSize: mobile ? 9 : 10, color: ACCENT, marginBottom: 6, fontWeight: 400 }}>EXCLUSIVE OFFERING</div>
+            <div style={{ fontSize: mobile ? 22 : 30, fontWeight: 300, color: "#fff", letterSpacing: mobile ? 2 : 4, fontFamily: SERIF }}>LE PARTICULIER</div>
+            <div style={{ fontSize: mobile ? 9 : 11, color: "rgba(255,255,255,0.5)", marginTop: 4, letterSpacing: 2 }}>4130 COLLINS AVENUE · MIAMI BEACH</div>
+          </div>
         </div>
+
+        {/* KEY METRICS BAR */}
+        <div style={{ display: "grid", gridTemplateColumns: mobile ? "repeat(3, 1fr)" : "repeat(6, 1fr)", borderBottom: "1px solid rgba(184,152,110,0.15)" }}>
+          {[
+            ["KEYS", "54"],
+            ["ASKING", "$21.5M"],
+            ["CAP RATE", "8.9%"],
+            ["$/KEY", "$398K"],
+            ["NOI", "$1.91M"],
+            ["BUILT", "2025"],
+          ].map(([label, val], i) => (
+            <div key={label} style={{ padding: mobile ? "10px 6px" : "14px 8px", textAlign: "center", borderRight: i < (mobile ? 2 : 5) ? "1px solid rgba(255,255,255,0.06)" : "none", borderBottom: mobile && i < 3 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
+              <div style={{ fontSize: 8, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, marginBottom: 4 }}>{label}</div>
+              <div style={{ fontSize: mobile ? 13 : 15, color: "#fff", fontWeight: 600, fontFamily: FONT }}>{val}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* TEASER TEXT */}
+        <div style={{ padding: mobile ? "14px 16px" : "18px 32px", borderBottom: "1px solid rgba(184,152,110,0.15)", textAlign: "center" }}>
+          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>
+            54-key boutique hotel on Collins Avenue — three blocks from Soho Beach House. Fully renovated November 2025. Currently operating at ~90% occupancy.
+          </div>
+          <div style={{ fontSize: 10, color: ACCENT, marginTop: 10, letterSpacing: 2 }}>SIGN IN BELOW TO ACCESS FULL OFFERING MATERIALS</div>
+        </div>
+
+        {/* FORM */}
+        <div style={{ padding: mobile ? "20px 16px" : "28px 56px" }}>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {[["Email *", email, setEmail, "email"], ["Full Name *", name, setName, "text"], ["Company / Entity *", company, setCompany, "text"]].map(([label, val, setter, type]) => (
@@ -226,6 +257,7 @@ function AccessGate({ onAccept }) {
             </div>
           )}
         </div>
+        </div>
       </div>
     </div>
   );
@@ -234,7 +266,7 @@ function MetricCard({ label, value, sub, accent }) {
   return (
     <div style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: "16px 16px", borderTop: `3px solid ${accent || NAVY}` }}>
       <div style={{ fontSize: 10, color: "#999", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>{label}</div>
-      <div style={{ fontSize: 22, fontWeight: 300, color: NAVY, fontFamily: "'Cormorant Garamond', serif" }}>{value}</div>
+      <div style={{ fontSize: 22, fontWeight: 300, color: NAVY, fontFamily: "'Playfair Display', serif" }}>{value}</div>
       {sub && <div style={{ fontSize: 11, color: "#888", marginTop: 4 }}>{sub}</div>}
     </div>
   );
@@ -459,7 +491,7 @@ function Scenarios() {
           <h4 style={{ fontSize: 12, color: GOLD, letterSpacing: 2, textTransform: "uppercase", marginBottom: 20 }}>Projected Results</h4>
 
           <div style={{ textAlign: "center", marginBottom: 24, padding: 20, background: capRate >= 9 ? "rgba(46,125,50,0.06)" : capRate >= 7 ? "rgba(200,169,81,0.08)" : "rgba(198,40,40,0.06)", borderRadius: 4 }}>
-            <div style={{ fontSize: 42, fontWeight: 300, color: capRate >= 9 ? "#2E7D32" : capRate >= 7 ? NAVY : "#C62828", fontFamily: "'Cormorant Garamond', serif" }}>
+            <div style={{ fontSize: 42, fontWeight: 300, color: capRate >= 9 ? "#2E7D32" : capRate >= 7 ? NAVY : "#C62828", fontFamily: "'Playfair Display', serif" }}>
               {capRate.toFixed(1)}%
             </div>
             <div style={{ fontSize: 11, color: "#888", letterSpacing: 2, textTransform: "uppercase" }}>Cap Rate</div>
@@ -939,9 +971,9 @@ function Contact() {
         {team.map((person) => (
           <div key={person.initials} style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, overflow: "hidden" }}>
             <div style={{ background: NAVY, padding: "24px 32px", display: "flex", alignItems: "center", gap: 16 }}>
-              <div style={{ width: 56, height: 56, borderRadius: "50%", background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 300, color: NAVY, fontFamily: "'Cormorant Garamond', serif", flexShrink: 0 }}>{person.initials}</div>
+              <div style={{ width: 56, height: 56, borderRadius: "50%", background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 300, color: NAVY, fontFamily: "'Playfair Display', serif", flexShrink: 0 }}>{person.initials}</div>
               <div>
-                <div style={{ fontSize: 20, color: "#fff", fontWeight: 300, fontFamily: "'Cormorant Garamond', serif", letterSpacing: 1 }}>{person.name}</div>
+                <div style={{ fontSize: 20, color: "#fff", fontWeight: 300, fontFamily: "'Playfair Display', serif", letterSpacing: 1 }}>{person.name}</div>
                 <div style={{ fontSize: 12, color: GOLD, letterSpacing: 1 }}>{person.title}</div>
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>Related Realty</div>
               </div>
