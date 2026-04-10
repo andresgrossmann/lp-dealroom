@@ -131,7 +131,7 @@ function AccessGate({ onAccept }) {
 
         {/* HERO IMAGE */}
         <div style={{ position: "relative", width: "100%", height: mobile ? 200 : 260, overflow: "hidden" }}>
-          <img src="/images/hero.jpg" alt="Le Particulier" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", filter: "brightness(0.7)" }} />
+          <img src="/images/OTAsLeParticulier-2.jpg" alt="Le Particulier" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%", filter: "brightness(0.7)" }} />
           <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: mobile ? "16px 16px 12px" : "24px 32px 16px", background: "linear-gradient(transparent, rgba(0,0,0,0.85))" }}>
             <img src="/images/Related Logo.jpeg" alt="" style={{ height: 22, opacity: 0.7, marginBottom: 12, filter: "invert(1)", mixBlendMode: "screen" }} />
             <div style={{ letterSpacing: mobile ? 4 : 6, fontSize: mobile ? 9 : 10, color: ACCENT, marginBottom: 6, fontWeight: 400 }}>EXCLUSIVE OFFERING</div>
