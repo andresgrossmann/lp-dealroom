@@ -985,35 +985,66 @@ function NdaGate({ buyer, onNdaSign, title }) {
 
   const downloadNDA = () => {
     const htmlContent = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-<head><meta charset="UTF-8"><style>
-body{font-family:Calibri,sans-serif;margin:72px;color:#333;line-height:1.8;font-size:12pt}
-.header{text-align:center;border-bottom:2pt solid #193A67;padding-bottom:16px;margin-bottom:24px}
-.header h2{color:#193A67;font-size:16pt;letter-spacing:1px;margin:0}
-.header .sub{font-size:10pt;color:#C5A572;letter-spacing:2px;margin-top:4px}
-h1{color:#193A67;font-size:13pt;text-align:center;letter-spacing:1px;margin-bottom:20px}
-.property{text-align:center;font-weight:bold;color:#193A67;font-size:11pt;margin-bottom:20px}
-strong{color:#193A67}
-.footer{margin-top:36px;padding-top:12px;border-top:2pt solid #193A67;text-align:center;font-size:9pt;color:#888;letter-spacing:1px}
-table.sig{width:100%;margin-top:40px;border-collapse:collapse}
-table.sig td{width:50%;padding:4px 12px;vertical-align:bottom}
-.sig-line{border-bottom:1px solid #333;height:30px}
-.sig-label{font-size:9pt;color:#888;padding-top:3px}
+<head><meta charset="UTF-8">
+<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
+<style>
+@page { size: 8.5in 11in; margin: 1in 1.25in; }
+body { font-family: Calibri, sans-serif; color: #333; font-size: 12pt; line-height: 1.7; text-align: justify; }
+.header-bar { border-bottom: 2pt solid #193A67; padding-bottom: 14px; margin-bottom: 28px; text-align: center; }
+.company-name { font-family: Calibri, sans-serif; font-size: 18pt; font-weight: bold; color: #193A67; letter-spacing: 3px; margin: 0; }
+.company-sub { font-size: 9pt; color: #C5A572; letter-spacing: 3px; margin-top: 2px; }
+.doc-title { font-family: Calibri, sans-serif; font-size: 14pt; font-weight: bold; color: #193A67; text-align: center; margin: 28px 0 8px; letter-spacing: 0.5px; }
+.property-line { text-align: center; font-weight: bold; color: #193A67; font-size: 12pt; margin-bottom: 28px; }
+p { text-align: justify; margin-bottom: 14px; }
+p strong { color: #193A67; }
+.footer-bar { border-top: 2pt solid #193A67; padding-top: 12px; margin-top: 48px; text-align: center; font-size: 8pt; color: #999; letter-spacing: 1px; }
+table.signatures { width: 100%; margin-top: 40px; border-collapse: collapse; }
+table.signatures td { width: 45%; padding: 0; vertical-align: bottom; }
+table.signatures td.spacer { width: 10%; }
+.line { border-bottom: 1pt solid #333; height: 32px; margin-top: 8px; }
+.label { font-size: 8pt; color: #888; margin-top: 4px; }
 </style></head><body>
-<div class="header">
-<h2>RELATED REALTY</h2>
-<div class="sub">COMMERCIAL DIVISION</div>
+
+<div class="header-bar">
+<div class="company-name">RELATED REALTY</div>
+<div class="company-sub">COMMERCIAL DIVISION</div>
 </div>
-<h1>CONFIDENTIALITY, NON-DISCLOSURE &<br>NON-CIRCUMVENTION AGREEMENT</h1>
-<div class="property">LE PARTICULIER — 4130 Collins Ave, Miami Beach, FL 33140</div>
-<p><strong>1. Confidentiality.</strong> Prospect and Prospect's Broker acknowledge that all information and materials provided by Related Realty regarding the above-referenced Property is confidential and may not be used for any purpose other than evaluation. Prospect's and Prospect's Broker's dissemination of any information and materials provided by Listing Broker will be limited to attorneys, accountants, banking representatives, and business advisors directly involved with the above-referenced Property. In the event the transaction is not successful, Prospect and Prospect's Broker will immediately return to Listing Broker any information and materials provided by Listing Broker.</p>
-<p><strong>2. Non-Disclosure.</strong> Related Realty, Prospect, and Prospect's Broker agree not to disclose to any other person the fact that any discussions or negotiations are taking place with regard to the Property, the actual or potential terms, conditions, or facts involved in any such discussions or negotiations.</p>
-<p><strong>3. Non-Circumvention.</strong> Prospect and Prospect's Broker agree not to contact the Property owner, landlord, tenants, employees, or customers except through Listing Broker. Prospect and Prospect's Broker further agree not to circumvent or interfere with Listing Broker's contract with owner/landlord in any way.</p>
-<p><strong>4. Verification of Data.</strong> No representation is made by Related Realty as to the accuracy of the information and materials provided. Prospect and Prospect's Broker agree to thoroughly review and independently verify the information and materials provided. Related Realty advises Prospect and Prospect's Broker to consult appropriate professionals for legal, tax, environmental, and other specialized advice concerning matters affecting the Property and the transaction contemplated.</p>
-<p><strong>5. Disputes.</strong> This agreement will be construed in accordance with the laws of the State of Florida. The Broker will be entitled to all remedies provided by law, including but not limited to injunctive relief and damages. In any litigation arising out of this agreement, the prevailing party will be entitled to recover from the non-prevailing party reasonable attorney's fees, costs, and expenses.</p>
+
+<div class="doc-title">CONFIDENTIALITY, NON-DISCLOSURE &amp; NON-CIRCUMVENTION AGREEMENT</div>
+<div class="property-line">LE PARTICULIER &mdash; 4130 Collins Ave, Miami Beach, FL 33140</div>
+
+<p><strong>1. Confidentiality.</strong> Prospect and Prospect&rsquo;s Broker acknowledge that all information and materials provided by Related Realty regarding the above-referenced Property is confidential and may not be used for any purpose other than evaluation. Prospect&rsquo;s and Prospect&rsquo;s Broker&rsquo;s dissemination of any information and materials provided by Listing Broker will be limited to attorneys, accountants, banking representatives, and business advisors directly involved with the above-referenced Property. In the event the transaction is not successful, Prospect and Prospect&rsquo;s Broker will immediately return to Listing Broker any information and materials provided by Listing Broker.</p>
+
+<p><strong>2. Non-Disclosure.</strong> Related Realty, Prospect, and Prospect&rsquo;s Broker agree not to disclose to any other person the fact that any discussions or negotiations are taking place with regard to the Property, the actual or potential terms, conditions, or facts involved in any such discussions or negotiations.</p>
+
+<p><strong>3. Non-Circumvention.</strong> Prospect and Prospect&rsquo;s Broker agree not to contact the Property owner, landlord, tenants, employees, or customers except through Listing Broker. Prospect and Prospect&rsquo;s Broker further agree not to circumvent or interfere with Listing Broker&rsquo;s contract with owner/landlord in any way.</p>
+
+<p><strong>4. Verification of Data.</strong> No representation is made by Related Realty as to the accuracy of the information and materials provided. Prospect and Prospect&rsquo;s Broker agree to thoroughly review and independently verify the information and materials provided. Related Realty advises Prospect and Prospect&rsquo;s Broker to consult appropriate professionals for legal, tax, environmental, and other specialized advice concerning matters affecting the Property and the transaction contemplated.</p>
+
+<p><strong>5. Disputes.</strong> This agreement will be construed in accordance with the laws of the State of Florida. The Broker will be entitled to all remedies provided by law, including but not limited to injunctive relief and damages. In any litigation arising out of this agreement, the prevailing party will be entitled to recover from the non-prevailing party reasonable attorney&rsquo;s fees, costs, and expenses.</p>
+
 <p><strong>6. Term.</strong> This agreement will terminate 1 Year after the conclusion of any discussions or negotiations regarding the above-referenced Property.</p>
-<table class="sig"><tr><td><div class="sig-line"></div><div class="sig-label">Prospect Signature</div></td><td><div class="sig-line"></div><div class="sig-label">Date</div></td></tr></table>
-<table class="sig"><tr><td><div class="sig-line"></div><div class="sig-label">Printed Name</div></td><td><div class="sig-line"></div><div class="sig-label">Company / Entity</div></td></tr></table>
-<div class="footer">Related Realty — 2999 NE 191st Street Suite 510 | Aventura, FL 33180 | O 305.932.6365</div>
+
+<p style="font-size: 10pt; color: #555; margin-top: 24px; margin-bottom: 8px; text-align: justify;">By signing below, the undersigned acknowledges having read, understood, and agreed to be bound by the terms of this Agreement.</p>
+
+<p style="font-size: 10pt; font-weight: bold; color: #193A67; margin-top: 24px; margin-bottom: 0;">PROSPECT</p>
+<table class="signatures" style="margin-top:16px">
+<tr><td><div class="line"></div><div class="label">Signature</div></td><td class="spacer"></td><td><div class="line"></div><div class="label">Date</div></td></tr>
+</table>
+<table class="signatures" style="margin-top:24px">
+<tr><td><div class="line"></div><div class="label">Printed Name</div></td><td class="spacer"></td><td><div class="line"></div><div class="label">Company / Entity</div></td></tr>
+</table>
+
+<p style="font-size: 10pt; font-weight: bold; color: #193A67; margin-top: 32px; margin-bottom: 0;">PROSPECT&rsquo;S BROKER</p>
+<table class="signatures" style="margin-top:16px">
+<tr><td><div class="line"></div><div class="label">Signature</div></td><td class="spacer"></td><td><div class="line"></div><div class="label">Date</div></td></tr>
+</table>
+<table class="signatures" style="margin-top:24px">
+<tr><td><div class="line"></div><div class="label">Printed Name</div></td><td class="spacer"></td><td><div class="line"></div><div class="label">Company / Entity</div></td></tr>
+</table>
+
+<div class="footer-bar">Related Realty &mdash; 2999 NE 191st Street Suite 510 &nbsp;|&nbsp; Aventura, FL 33180 &nbsp;|&nbsp; O 305.932.6365</div>
+
 </body></html>`;
     const blob = new Blob([htmlContent], { type: "application/msword" });
     const url = URL.createObjectURL(blob);
