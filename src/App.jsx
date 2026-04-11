@@ -72,13 +72,11 @@ function AccessGate({ onAccept }) {
   const [name, setName] = useState(saved.name || "");
   const [company, setCompany] = useState(saved.company || "");
   const [rememberMe, setRememberMe] = useState(!!saved.name);
-  const [signatureName, setSignatureName] = useState("");
-  const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [adminPin, setAdminPin] = useState("");
 
-  const valid = email && name && company && agreed && signatureName && signatureName.trim().toLowerCase() === name.trim().toLowerCase();
+  const valid = email && name && company;
 
   // Track page view on load (before any form interaction)
   useEffect(() => {
@@ -97,7 +95,6 @@ function AccessGate({ onAccept }) {
 
   const handleEnter = () => {
     if (!valid) return;
-    // Save or clear remember me
     try {
       if (rememberMe) {
         localStorage.setItem("lp_user", JSON.stringify({ name, company, email }));
@@ -105,16 +102,16 @@ function AccessGate({ onAccept }) {
         localStorage.removeItem("lp_user");
       }
     } catch(e) {}
-    // Log visitor
+    // Log visitor (without NDA — just registration)
     try {
       fetch(API_URL, {
         method: "POST",
         body: JSON.stringify({
           action: "logVisitor", name, company, email, role: "", hasReferringBroker: "",
           refBrokerName: "", refBrokerEmail: "",
-          eSignature: signatureName,
-          ndaVersion: "NDA v1.0",
-          disclaimerAccepted: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
+          eSignature: "",
+          ndaVersion: "",
+          disclaimerAccepted: "",
           browser: navigator.userAgent || "",
           date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
         }),
@@ -162,12 +159,11 @@ function AccessGate({ onAccept }) {
           <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>
             54-key boutique hotel on Collins Avenue — three blocks from Soho Beach House. Fully renovated November 2025. Currently operating at ~90% occupancy.
           </div>
-          <div style={{ fontSize: 10, color: ACCENT, marginTop: 10, letterSpacing: 2 }}>SIGN IN BELOW TO ACCESS FULL OFFERING MATERIALS</div>
+          <div style={{ fontSize: 10, color: ACCENT, marginTop: 10, letterSpacing: 2 }}>SIGN IN BELOW TO ACCESS OFFERING MATERIALS</div>
         </div>
 
         {/* FORM */}
         <div style={{ padding: mobile ? "20px 16px" : "28px 56px" }}>
-
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {[["Email *", email, setEmail, "email"], ["Full Name *", name, setName, "text"], ["Company / Entity *", company, setCompany, "text"]].map(([label, val, setter, type]) => (
             <div key={label}>
@@ -179,43 +175,6 @@ function AccessGate({ onAccept }) {
           {error && (
             <div style={{ padding: 12, background: "rgba(198,40,40,0.12)", border: "1px solid rgba(198,40,40,0.3)", borderRadius: 3, textAlign: "center" }}>
               <span style={{ fontSize: 12, color: "#ff6b6b" }}>{error}</span>
-            </div>
-          )}
-
-          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 3, padding: 16, fontSize: 10, color: "rgba(255,255,255,0.35)", lineHeight: 1.7, maxHeight: 180, overflowY: "auto" }}>
-            <strong style={{ color: "rgba(255,255,255,0.5)", letterSpacing: 1 }}>LE PARTICULIER — 4130 Collins Ave, Miami Beach, FL 33140</strong><br/><br/>
-            <strong style={{ color: "rgba(255,255,255,0.45)" }}>1. Confidentiality.</strong> Prospect and Prospect's Broker acknowledge that all information and materials provided by Related Realty regarding the above-referenced Property is confidential and may not be used for any purpose other than evaluation. Prospect's and Prospect's Broker's dissemination of any information and materials provided by Listing Broker will be limited to attorneys, accountants, banking representatives, and business advisors directly involved with the above-referenced Property. In the event the transaction is not successful, Prospect and Prospect's Broker will immediately return to Listing Broker any information and materials provided by Listing Broker.<br/><br/>
-            <strong style={{ color: "rgba(255,255,255,0.45)" }}>2. Non-Disclosure.</strong> Related Realty, Prospect, and Prospect's Broker agree not to disclose to any other person the fact that any discussions or negotiations are taking place with regard to the Property, the actual or potential terms, conditions, or facts involved in any such discussions or negotiations.<br/><br/>
-            <strong style={{ color: "rgba(255,255,255,0.45)" }}>3. Non-Circumvention.</strong> Prospect and Prospect's Broker agree not to contact the Property owner, landlord, tenants, employees, or customers except through Listing Broker. Prospect and Prospect's Broker further agree not to circumvent or interfere with Listing Broker's contract with owner/landlord in any way.<br/><br/>
-            <strong style={{ color: "rgba(255,255,255,0.45)" }}>4. Verification of Data.</strong> No representation is made by Related Realty as to the accuracy of the information and materials provided. Prospect and Prospect's Broker agree to thoroughly review and independently verify the information and materials provided. Related Realty advises Prospect and Prospect's Broker to consult appropriate professionals for legal, tax, environmental, and other specialized advice concerning matters affecting the Property and the transaction contemplated.<br/><br/>
-            <strong style={{ color: "rgba(255,255,255,0.45)" }}>5. Disputes.</strong> This agreement will be construed in accordance with the laws of the State of Florida. The Broker will be entitled to all remedies provided by law, including but not limited to injunctive relief and damages. In any litigation arising out of this agreement, the prevailing party will be entitled to recover from the non-prevailing party reasonable attorney's fees, costs, and expenses.<br/><br/>
-            <strong style={{ color: "rgba(255,255,255,0.45)" }}>6. Term.</strong> This agreement will terminate 1 Year after the conclusion of any discussions or negotiations regarding the above-referenced Property.<br/><br/>
-            <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 9 }}>2999 NE 191st Street Suite 510 | Aventura, FL 33180 | O 305.932.6365</span>
-          </div>
-
-          <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
-            <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
-              style={{ marginTop: 2, width: 16, height: 16, accentColor: ACCENT, cursor: "pointer", flexShrink: 0 }} />
-            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>
-              By checking this box, I acknowledge that I have read, understand, and agree to be bound by the Confidentiality, Non-Disclosure & Non-Circumvention terms set forth above. I consent to conduct this transaction electronically pursuant to the Florida Electronic Signature Act (Fla. Stat. §668.50) and the federal E-SIGN Act. *
-            </span>
-          </label>
-
-          {agreed && (
-            <div style={{ background: "rgba(184,152,110,0.06)", border: "1px solid rgba(184,152,110,0.15)", padding: 16 }}>
-              <div style={{ fontSize: 9, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 8 }}>ELECTRONIC SIGNATURE</div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 10, lineHeight: 1.5 }}>
-                Type your full name below exactly as entered above to serve as your legally binding electronic signature.
-              </div>
-              <input type="text" value={signatureName} onChange={(e) => setSignatureName(e.target.value)}
-                placeholder="Type your full name here"
-                style={{ ...inputStyle, fontStyle: "italic", fontSize: 15, textAlign: "center", borderColor: signatureName && signatureName.trim().toLowerCase() === name.trim().toLowerCase() ? "rgba(184,152,110,0.5)" : "rgba(255,255,255,0.12)" }} />
-              {signatureName && signatureName.trim().toLowerCase() !== name.trim().toLowerCase() && (
-                <div style={{ fontSize: 9, color: "#ff6b6b", marginTop: 6, textAlign: "center" }}>Name must match exactly: {name}</div>
-              )}
-              {signatureName && signatureName.trim().toLowerCase() === name.trim().toLowerCase() && (
-                <div style={{ fontSize: 9, color: ACCENT, marginTop: 6, textAlign: "center" }}>✓ Electronic signature accepted</div>
-              )}
             </div>
           )}
 
@@ -1018,7 +977,141 @@ function Contact() {
   );
 }
 
-function Documents() {
+function NdaGate({ buyer, onNdaSign, title }) {
+  const mobile = useIsMobile();
+  const [agreed, setAgreed] = useState(false);
+  const [signatureName, setSignatureName] = useState("");
+  const sigValid = agreed && signatureName && buyer && signatureName.trim().toLowerCase() === buyer.name.trim().toLowerCase();
+
+  const downloadNDA = () => {
+    const htmlContent = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8"><style>
+body{font-family:Calibri,sans-serif;margin:72px;color:#333;line-height:1.8;font-size:12pt}
+.header{text-align:center;border-bottom:2pt solid #193A67;padding-bottom:16px;margin-bottom:24px}
+.header h2{color:#193A67;font-size:16pt;letter-spacing:1px;margin:0}
+.header .sub{font-size:10pt;color:#C5A572;letter-spacing:2px;margin-top:4px}
+h1{color:#193A67;font-size:13pt;text-align:center;letter-spacing:1px;margin-bottom:20px}
+.property{text-align:center;font-weight:bold;color:#193A67;font-size:11pt;margin-bottom:20px}
+strong{color:#193A67}
+.footer{margin-top:36px;padding-top:12px;border-top:2pt solid #193A67;text-align:center;font-size:9pt;color:#888;letter-spacing:1px}
+table.sig{width:100%;margin-top:40px;border-collapse:collapse}
+table.sig td{width:50%;padding:4px 12px;vertical-align:bottom}
+.sig-line{border-bottom:1px solid #333;height:30px}
+.sig-label{font-size:9pt;color:#888;padding-top:3px}
+</style></head><body>
+<div class="header">
+<h2>RELATED REALTY</h2>
+<div class="sub">COMMERCIAL DIVISION</div>
+</div>
+<h1>CONFIDENTIALITY, NON-DISCLOSURE &<br>NON-CIRCUMVENTION AGREEMENT</h1>
+<div class="property">LE PARTICULIER — 4130 Collins Ave, Miami Beach, FL 33140</div>
+<p><strong>1. Confidentiality.</strong> Prospect and Prospect's Broker acknowledge that all information and materials provided by Related Realty regarding the above-referenced Property is confidential and may not be used for any purpose other than evaluation. Prospect's and Prospect's Broker's dissemination of any information and materials provided by Listing Broker will be limited to attorneys, accountants, banking representatives, and business advisors directly involved with the above-referenced Property. In the event the transaction is not successful, Prospect and Prospect's Broker will immediately return to Listing Broker any information and materials provided by Listing Broker.</p>
+<p><strong>2. Non-Disclosure.</strong> Related Realty, Prospect, and Prospect's Broker agree not to disclose to any other person the fact that any discussions or negotiations are taking place with regard to the Property, the actual or potential terms, conditions, or facts involved in any such discussions or negotiations.</p>
+<p><strong>3. Non-Circumvention.</strong> Prospect and Prospect's Broker agree not to contact the Property owner, landlord, tenants, employees, or customers except through Listing Broker. Prospect and Prospect's Broker further agree not to circumvent or interfere with Listing Broker's contract with owner/landlord in any way.</p>
+<p><strong>4. Verification of Data.</strong> No representation is made by Related Realty as to the accuracy of the information and materials provided. Prospect and Prospect's Broker agree to thoroughly review and independently verify the information and materials provided. Related Realty advises Prospect and Prospect's Broker to consult appropriate professionals for legal, tax, environmental, and other specialized advice concerning matters affecting the Property and the transaction contemplated.</p>
+<p><strong>5. Disputes.</strong> This agreement will be construed in accordance with the laws of the State of Florida. The Broker will be entitled to all remedies provided by law, including but not limited to injunctive relief and damages. In any litigation arising out of this agreement, the prevailing party will be entitled to recover from the non-prevailing party reasonable attorney's fees, costs, and expenses.</p>
+<p><strong>6. Term.</strong> This agreement will terminate 1 Year after the conclusion of any discussions or negotiations regarding the above-referenced Property.</p>
+<table class="sig"><tr><td><div class="sig-line"></div><div class="sig-label">Prospect Signature</div></td><td><div class="sig-line"></div><div class="sig-label">Date</div></td></tr></table>
+<table class="sig"><tr><td><div class="sig-line"></div><div class="sig-label">Printed Name</div></td><td><div class="sig-line"></div><div class="sig-label">Company / Entity</div></td></tr></table>
+<div class="footer">Related Realty — 2999 NE 191st Street Suite 510 | Aventura, FL 33180 | O 305.932.6365</div>
+</body></html>`;
+    const blob = new Blob([htmlContent], { type: "application/msword" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Le_Particulier_NDA.doc";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleSign = () => {
+    if (!sigValid) return;
+    try {
+      fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "logVisitor", name: buyer.name, company: buyer.company, email: buyer.email, role: "", hasReferringBroker: "",
+          refBrokerName: "", refBrokerEmail: "",
+          eSignature: signatureName,
+          ndaVersion: "NDA v1.0",
+          disclaimerAccepted: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
+          browser: navigator.userAgent || "",
+          date: new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
+        }),
+      });
+    } catch(e) {}
+    onNdaSign();
+  };
+
+  return (
+    <div>
+      <div style={{ textAlign: "center", marginBottom: 24 }}>
+        <div style={{ fontSize: 22, fontWeight: 300, color: NAVY, fontFamily: SERIF, marginBottom: 8 }}>{title || "Confidential Materials"}</div>
+        <div style={{ fontSize: 13, color: "#888", lineHeight: 1.6 }}>
+          To access confidential materials, please review and sign the Non-Disclosure Agreement below.
+        </div>
+      </div>
+
+      <div style={{ background: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: mobile ? 16 : 32, marginBottom: 20 }}>
+        <div style={{ fontSize: 11, fontWeight: 600, color: NAVY, letterSpacing: 2, marginBottom: 16 }}>NON-DISCLOSURE AGREEMENT</div>
+
+        <div style={{ background: LIGHT, border: "1px solid #e0ddd8", borderRadius: 3, padding: 20, fontSize: 12, color: "#555", lineHeight: 1.8, maxHeight: 300, overflowY: "auto", marginBottom: 20 }}>
+          <strong style={{ color: NAVY }}>LE PARTICULIER — 4130 Collins Ave, Miami Beach, FL 33140</strong><br/><br/>
+          <strong>1. Confidentiality.</strong> Prospect and Prospect's Broker acknowledge that all information and materials provided by Related Realty regarding the above-referenced Property is confidential and may not be used for any purpose other than evaluation. Prospect's and Prospect's Broker's dissemination of any information and materials provided by Listing Broker will be limited to attorneys, accountants, banking representatives, and business advisors directly involved with the above-referenced Property. In the event the transaction is not successful, Prospect and Prospect's Broker will immediately return to Listing Broker any information and materials provided by Listing Broker.<br/><br/>
+          <strong>2. Non-Disclosure.</strong> Related Realty, Prospect, and Prospect's Broker agree not to disclose to any other person the fact that any discussions or negotiations are taking place with regard to the Property, the actual or potential terms, conditions, or facts involved in any such discussions or negotiations.<br/><br/>
+          <strong>3. Non-Circumvention.</strong> Prospect and Prospect's Broker agree not to contact the Property owner, landlord, tenants, employees, or customers except through Listing Broker. Prospect and Prospect's Broker further agree not to circumvent or interfere with Listing Broker's contract with owner/landlord in any way.<br/><br/>
+          <strong>4. Verification of Data.</strong> No representation is made by Related Realty as to the accuracy of the information and materials provided. Prospect and Prospect's Broker agree to thoroughly review and independently verify the information and materials provided.<br/><br/>
+          <strong>5. Disputes.</strong> This agreement will be construed in accordance with the laws of the State of Florida. The Broker will be entitled to all remedies provided by law, including but not limited to injunctive relief and damages.<br/><br/>
+          <strong>6. Term.</strong> This agreement will terminate 1 Year after the conclusion of any discussions or negotiations regarding the above-referenced Property.<br/><br/>
+          <span style={{ fontSize: 10, color: "#999" }}>Related Realty — 2999 NE 191st Street Suite 510 | Aventura, FL 33180 | O 305.932.6365</span>
+        </div>
+
+        <button onClick={downloadNDA}
+          style={{ width: "100%", padding: "12px 0", background: "transparent", border: "1px solid " + NAVY, color: NAVY, fontSize: 12, fontWeight: 600, letterSpacing: 2, cursor: "pointer", fontFamily: FONT, marginBottom: 20, borderRadius: 3 }}>
+          DOWNLOAD NDA TO REVIEW
+        </button>
+
+        <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer", marginBottom: 16 }}>
+          <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
+            style={{ marginTop: 2, width: 16, height: 16, accentColor: ACCENT, cursor: "pointer", flexShrink: 0 }} />
+          <span style={{ fontSize: 11, color: "#555", lineHeight: 1.5 }}>
+            By checking this box, I acknowledge that I have read, understand, and agree to be bound by the Confidentiality, Non-Disclosure & Non-Circumvention terms set forth above. I consent to conduct this transaction electronically pursuant to the Florida Electronic Signature Act (Fla. Stat. §668.50) and the federal E-SIGN Act.
+          </span>
+        </label>
+
+        {agreed && (
+          <div style={{ background: "rgba(197,165,114,0.06)", border: "1px solid rgba(197,165,114,0.2)", borderRadius: 3, padding: 16, marginBottom: 16 }}>
+            <div style={{ fontSize: 9, color: "#888", letterSpacing: 2, marginBottom: 8 }}>ELECTRONIC SIGNATURE</div>
+            <div style={{ fontSize: 11, color: "#888", marginBottom: 10, lineHeight: 1.5 }}>
+              Type your full name below to serve as your legally binding electronic signature.
+            </div>
+            <input type="text" value={signatureName} onChange={(e) => setSignatureName(e.target.value)}
+              placeholder="Type your full name here"
+              style={{ width: "100%", padding: "14px 16px", border: sigValid ? "1px solid " + GOLD : "1px solid #ddd", fontSize: 15, fontStyle: "italic", textAlign: "center", fontFamily: FONT, outline: "none", borderRadius: 3 }} />
+            {signatureName && !sigValid && (
+              <div style={{ fontSize: 9, color: "#ff6b6b", marginTop: 6, textAlign: "center" }}>Name must match: {buyer.name}</div>
+            )}
+            {sigValid && (
+              <div style={{ fontSize: 9, color: "#2E7D32", marginTop: 6, textAlign: "center" }}>✓ Electronic signature accepted</div>
+            )}
+          </div>
+        )}
+
+        <button onClick={handleSign} disabled={!sigValid}
+          style={{ width: "100%", padding: "14px 0", background: sigValid ? GOLD : "rgba(197,165,114,0.2)", color: sigValid ? NAVY : "#ccc", border: "none", borderRadius: 3, fontSize: 13, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", cursor: sigValid ? "pointer" : "default", fontFamily: FONT }}>
+          SIGN & ACCESS
+        </button>
+      </div>
+
+      <div style={{ textAlign: "center", fontSize: 12, color: "#888", lineHeight: 1.6 }}>
+        Need to have your legal team review first? Download the NDA above and contact us when ready.
+        <br/>Andres Grossmann (786) 213-5064 · andresg@related-realty.com
+      </div>
+    </div>
+  );
+}
+
+function Documents({ buyer, ndaSigned, onNdaSign }) {
   const mobile = useIsMobile();
   const [copied, setCopied] = useState("");
   const FOLDER_URL = "https://drive.google.com/drive/folders/1JSCy6B9137GW30FtH0wUtKOrE73zwj6G?usp=sharing";
@@ -1038,6 +1131,8 @@ function Documents() {
       setTimeout(() => setCopied(""), 2000);
     });
   };
+
+  if (!ndaSigned) return <NdaGate buyer={buyer} onNdaSign={onNdaSign} title="Confidential Documents" />;
 
   return (
     <div>
@@ -1242,6 +1337,7 @@ export default function App() {
   const mobile = useIsMobile();
   const [buyer, setBuyer] = useState(null);
   const [tab, setTab] = useState("Overview");
+  const [ndaSigned, setNdaSigned] = useState(false);
   const isAdmin = buyer && buyer.admin;
   const tabs = isAdmin
     ? ["Visitor Log", "Offers", "Overview", "Gallery", "Financials", "Documents", "Scenarios", "Send Offer", "Ask AI", "Contact"]
@@ -1279,8 +1375,8 @@ export default function App() {
         {tab === "Offers" && isAdmin && <OffersLog />}
         {tab === "Overview" && <Overview />}
         {tab === "Gallery" && <Gallery />}
-        {tab === "Financials" && <Financials />}
-        {tab === "Documents" && <Documents />}
+        {tab === "Financials" && (ndaSigned || isAdmin ? <Financials /> : <NdaGate buyer={buyer} onNdaSign={() => setNdaSigned(true)} title="Confidential Financials" />)}
+        {tab === "Documents" && <Documents buyer={buyer} ndaSigned={ndaSigned || isAdmin} onNdaSign={() => setNdaSigned(true)} />}
         {tab === "Scenarios" && <Scenarios />}
         {tab === "Send Offer" && <SubmitOffer buyer={buyer} />}
         {tab === "Ask AI" && <AIChat buyer={buyer} />}
