@@ -883,14 +883,14 @@ function Gallery() {
               {images[selected].label}
               <span style={{ color: "#888", marginLeft: 12 }}>{selected + 1} / {images.length}</span>
             </div>
-            <div style={{ position: "absolute", top: -40, right: 0, color: "#fff", fontSize: 28, cursor: "pointer" }}>\u2715</div>
+            <div style={{ position: "absolute", top: -40, right: 0, color: "#fff", fontSize: 28, cursor: "pointer" }}>{"✕"}</div>
             {selected > 0 && (
               <div onClick={(e) => { e.stopPropagation(); setSelected(selected - 1); }}
-                style={{ position: "absolute", left: 4, top: "50%", transform: "translateY(-50%)", color: "#fff", fontSize: 36, cursor: "pointer", padding: 10, background: "rgba(0,0,0,0.4)", borderRadius: "50%" }}>\u2039</div>
+                style={{ position: "absolute", left: 4, top: "50%", transform: "translateY(-50%)", color: "#fff", fontSize: 36, cursor: "pointer", padding: 10, background: "rgba(0,0,0,0.4)", borderRadius: "50%" }}>{"‹"}</div>
             )}
             {selected < images.length - 1 && (
               <div onClick={(e) => { e.stopPropagation(); setSelected(selected + 1); }}
-                style={{ position: "absolute", right: 4, top: "50%", transform: "translateY(-50%)", color: "#fff", fontSize: 36, cursor: "pointer", padding: 10, background: "rgba(0,0,0,0.4)", borderRadius: "50%" }}>\u203A</div>
+                style={{ position: "absolute", right: 4, top: "50%", transform: "translateY(-50%)", color: "#fff", fontSize: 36, cursor: "pointer", padding: 10, background: "rgba(0,0,0,0.4)", borderRadius: "50%" }}>{"›"}</div>
             )}
           </div>
         </div>
