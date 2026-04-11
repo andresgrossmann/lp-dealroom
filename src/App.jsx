@@ -984,6 +984,18 @@ function NdaGate({ buyer, onNdaSign, title }) {
   const sigValid = agreed && signatureName && buyer && signatureName.trim().toLowerCase() === buyer.name.trim().toLowerCase();
 
   const downloadNDA = () => {
+    // Log NDA download
+    try {
+      fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "logPageView",
+          timestamp: new Date().toLocaleString("en-US", { timeZone: "America/New_York" }),
+          referrer: "NDA Download — " + (buyer ? buyer.name + " / " + buyer.company + " / " + buyer.email : "unknown"),
+          browser: navigator.userAgent || ""
+        }),
+      });
+    } catch(e) {}
     const htmlContent = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
 <head><meta charset="UTF-8">
 <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
