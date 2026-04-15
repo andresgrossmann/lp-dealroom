@@ -200,19 +200,35 @@ function AccessGate({ onAccept }) {
 
         <div style={{ textAlign: "center", marginTop: 16 }}>
           {!showAdminLogin ? (
-            <span onClick={() => setShowAdminLogin(true)}
-              style={{ fontSize: 10, color: "rgba(255,255,255,0.2)", cursor: "pointer", padding: "4px 14px", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 3 }}>
-              Broker Login
-            </span>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+              <span onClick={() => setShowAdminLogin("broker")}
+                style={{ fontSize: 10, color: "rgba(255,255,255,0.2)", cursor: "pointer", padding: "4px 14px", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 3 }}>
+                Broker Login
+              </span>
+              <span onClick={() => setShowAdminLogin("approved")}
+                style={{ fontSize: 10, color: "rgba(255,255,255,0.2)", cursor: "pointer", padding: "4px 14px", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 3 }}>
+                NDA Approved
+              </span>
+            </div>
           ) : (
             <div style={{ display: "flex", gap: 8, justifyContent: "center", alignItems: "center" }}>
               <input type="password" placeholder="PIN" value={adminPin} onChange={(e) => setAdminPin(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter" && adminPin === "4130") onAccept({ name: "Admin", company: "Related Realty", email: "andresg@related-realty.com", broker: "", admin: true }); }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    if (showAdminLogin === "broker" && adminPin === "4130") onAccept({ name: "Admin", company: "Related Realty", email: "andresg@related-realty.com", broker: "", admin: true });
+                    if (showAdminLogin === "approved" && adminPin === "2403") onAccept({ name: name || "Approved Buyer", company: company || "", email: email || "", broker: "", ndaPreApproved: true });
+                  }
+                }}
                 style={{ width: 80, padding: "8px 12px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 3, color: "#fff", fontSize: 13, textAlign: "center", outline: "none" }} />
-              <button onClick={() => { if (adminPin === "4130") onAccept({ name: "Admin", company: "Related Realty", email: "andresg@related-realty.com", broker: "", admin: true }); }}
+              <button onClick={() => {
+                  if (showAdminLogin === "broker" && adminPin === "4130") onAccept({ name: "Admin", company: "Related Realty", email: "andresg@related-realty.com", broker: "", admin: true });
+                  if (showAdminLogin === "approved" && adminPin === "2403") onAccept({ name: name || "Approved Buyer", company: company || "", email: email || "", broker: "", ndaPreApproved: true });
+                }}
                 style={{ padding: "8px 16px", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 3, color: "#fff", fontSize: 11, cursor: "pointer", letterSpacing: 1 }}>
                 GO
               </button>
+              <span onClick={() => { setShowAdminLogin(false); setAdminPin(""); }}
+                style={{ fontSize: 10, color: "rgba(255,255,255,0.2)", cursor: "pointer", marginLeft: 4 }}>{"✕"}</span>
             </div>
           )}
         </div>
@@ -1386,7 +1402,7 @@ export default function App() {
     ? ["Visitor Log", "Offers", "Overview", "Gallery", "Financials", "Documents", "Scenarios", "Send Offer", "Ask AI", "Contact"]
     : ["Overview", "Gallery", "Financials", "Documents", "Scenarios", "Send Offer", "Ask AI", "Contact"];
 
-  if (!buyer) return <AccessGate onAccept={(b) => { setBuyer(b); if (b.admin) setTab("Visitor Log"); }} />;
+  if (!buyer) return <AccessGate onAccept={(b) => { setBuyer(b); if (b.admin) setTab("Visitor Log"); if (b.ndaPreApproved) setNdaSigned(true); }} />;
 
   return (
     <div style={{ minHeight: "100vh", background: LIGHT, fontFamily: FONT }}>
