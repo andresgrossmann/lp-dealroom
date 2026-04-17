@@ -145,7 +145,7 @@ function AccessGate({ onAccept }) {
             ["CAP RATE", "8.9%"],
             ["$/KEY", "$398K"],
             ["NOI", "$1.91M"],
-            ["BUILT", "2025"],
+            ["BUILT / RENOVATED", "1936 / 2025"],
           ].map(([label, val], i) => (
             <div key={label} style={{ padding: mobile ? "10px 6px" : "14px 8px", textAlign: "center", borderRight: i < (mobile ? 2 : 5) ? "1px solid rgba(255,255,255,0.06)" : "none", borderBottom: mobile && i < 3 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
               <div style={{ fontSize: 8, color: "rgba(255,255,255,0.35)", letterSpacing: 1.5, marginBottom: 4 }}>{label}</div>
